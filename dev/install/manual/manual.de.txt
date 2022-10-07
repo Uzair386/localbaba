@@ -1,0 +1,62 @@
+<a name="top"></a>
+<h2>Installation of Complete Laravel Dropshipping Script Manual</h2>
+<table border=0 width="100%">
+<tbody>
+<tr>
+	<td>
+		<ul>
+			<li><a href="#Step_1._installation_version_1_0."><span>Step 1. Installation Manual.</span></a>
+			<li><a href="#Step_2._Admin_Login."><span>Step 2. Admin Login.</span></a>
+			<li><a href="#Step_3._Post_Installation."><span>Step 3. Post Installation.</span></a>
+		</ul>
+	</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>(for version 1.0 or above) </p>
+<p>A new installation of Your Program is a very straight forward process: </p>
+
+<div style="float:right;">[<a href="#top">top</a>]</div>
+<a name="Step_1._installation_version_1_0."></a>
+<h3><b>Step 1. Installation Manual</b></h3>
+<hr>
+<p><b>I.</b>	Download Script, then extract it on your computer</p>
+<p><b>II.</b>	 Upload the “Affiliate Pro v--.zip” file to your public_html or localhost folder.</p>
+<p><b>III.</b>	Extract the zip file.</p>
+<p><b>IV.</b>	Create a new database then link the database with a user.</p>
+<p><b>V.</b>	Go to phpmyadmin click on the newly created database then import the “Affiliate Pro v-.sql” it’s located among the files extracted on your computer @ (I).Now Db is set.</p>
+<p><b>VI.</b>	Let’s set up the config.php, navigate to public_html/controller/config.php</p>
+<p><b>VI.</b>	VII.	set up config.php[v 1.1] , navigate to /install/ copy  “config.tpl” to /controller/ resulting to /controller/config.php [v 1.1]</p>
+<p><b>VII.</b>	Open it; fill in the corresponding fields (Line 30-41) save it.[v 1.0]</p>
+<p><b>VIII.</b>	Congratulation, Setup is now complete.</p>
+<p><b>IX.</b>	For SSL add s to http on line 20 of your config.php</p>
+<p><b>X.</b>	For SSL force all http to https uncomment line 2-4 of your .htaccess file, location public_html/.htaccess</p>
+<p><b>XI.</b>	Video: Installation Steps https://youtu.be/diCUlhnK08s</p>
+
+<p><br /></p>
+
+
+
+<div style="float:right;">[<a href="#top">top</a>]</div>
+<a name="Step_2._Admin_Login."></a>
+<h3><b>Step 3. Admin Login.</b></h3>
+<hr>
+<p><b>I.</b>	Default Admin Login URL is     http://yoursite.com/administrator.php</p>
+<p><b>II.</b>	Default Admin Email is           ecom@scriptorigin.com</p>
+<p><b>III.</b>	Default Admin Password is     administrator</p>
+<p><b>IV.</b>	Optional: administrator.php can be renamed.</p>
+<p><br /></p>
+
+<div style="float:right;">[<a href="#top">top</a>]</div>
+<a name="Step_3._Post_Installation."></a>
+<h3><b>Step 4. Post Installation.</b></h3>
+<hr>
+<p>After Installation delete the "install" folder based on security</p>
+<p><b>Need Support?</b> https://scriptorigin.freshdesk.com/ </p>
+<p><br /></p>
+
+
+
+Congratulations, you now have The Script Installed!

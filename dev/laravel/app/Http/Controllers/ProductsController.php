@@ -221,7 +221,7 @@ class ProductsController extends Controller
     public function download_images($id) {
         $product = Product::findOrFail($id);
         //dd($product);
-        $zip_file = public_path().'uploads/zip/images.zip'; // Name of our archive to download
+        $zip_file = public_path().'/uploads/zip/images.zip'; // Name of our archive to download
 
         // Initializing PHP class
         $zip = new \ZipArchive();

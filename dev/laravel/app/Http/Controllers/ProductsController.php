@@ -235,26 +235,31 @@ class ProductsController extends Controller
 
         if ($zip->open($public_dir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {
 
-            //dd($product->image);
             // Add Files in ZipArchive
-            $zip->addFile($product->image, $product->image);
+            $img1 = explode('/',$product->image);
+            $zip->addFile($product->image, end($img1));
 
             if($product['image_ex1'] != "") {
-                $zip->addFile($product->image_ex1, $product->image_ex1);
+                $img2 = explode('/',$product->image_ex1);
+                $zip->addFile($product->image_ex1, end($img2));
             }
             if($product['image_ex2'] != "") {
-                $zip->addFile($product->image_ex2, $product->image_ex2);
+                $img3 = explode('/',$product->image_ex2);
+                $zip->addFile($product->image_ex2, end($img3));
             }
             if($product['image_ex3'] != "") {
-                $zip->addFile($product->image_ex3, $product->image_ex3);
+                $img4 = explode('/',$product->image_ex3);
+                $zip->addFile($product->image_ex3, end($img4));
             }
             if($product['image_ex4'] != "") {
-                $zip->addFile($product->image_ex4, $product->image_ex4);
+                $img5 = explode('/',$product->image_ex4);
+                $zip->addFile($product->image_ex4, end($img5));
             }
             if($product['image_ex5'] != "") {
-                $zip->addFile($product->image_ex5, $product->image_ex5);
+                $img6 = explode('/',$product->image_ex5);
+                $zip->addFile($product->image_ex5, end($img6));
             }
-            //dd($zip);
+
             // Close ZipArchive
             $zip->close();
         }

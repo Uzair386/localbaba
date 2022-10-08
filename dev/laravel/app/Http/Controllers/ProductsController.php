@@ -12,6 +12,8 @@ use App\Credit;
 use App\Report;
 use App\User;
 use Redirect;
+use ZipArchive;
+
 class ProductsController extends Controller
 {
     /**
@@ -220,34 +222,52 @@ class ProductsController extends Controller
 
     public function download_images($id) {
         $product = Product::findOrFail($id);
-        //dd($product);
-        $zip_file = 'uploads/zip/images.zip'; // Name of our archive to download
+
+        // Define Dir Folder
+        $public_dir=public_path();
+
+        // Zip File Name
+        $zipFileName = 'images.zip';
 
         // Initializing PHP class
-        $zip = new \ZipArchive();
-        $zip->open(public_path().'/'.$zip_file, \ZipArchive::CREATE);
-        // Adding file: second parameter is what will the path inside of the archive
-        // So it will create another folder called "storage/" inside ZIP, and put the file there.
-        $zip->addFile(asset($product->image), $product->image);
+        $zip = new ZipArchive;
 
-        if($product['image_ex1'] != "") {
-            $zip->addFile(asset($product->image_ex1), $product->image_ex1);
+
+        if ($zip->open($public_dir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {
+
+            // Add Files in ZipArchive
+            $zip->addFile(asset($product->image), $product->image);
+
+            if($product['image_ex1'] != "") {
+                $zip->addFile(asset($product->image_ex1), $product->image_ex1);
+            }
+            if($product['image_ex2'] != "") {
+                $zip->addFile(asset($product->image_ex2), $product->image_ex2);
+            }
+            if($product['image_ex3'] != "") {
+                $zip->addFile(asset($product->image_ex3), $product->image_ex3);
+            }
+            if($product['image_ex4'] != "") {
+                $zip->addFile(asset($product->image_ex4), $product->image_ex4);
+            }
+            if($product['image_ex5'] != "") {
+                $zip->addFile(asset($product->image_ex5), $product->image_ex5);
+            }
+            // Close ZipArchive
+            $zip->close();
         }
-        if($product['image_ex2'] != "") {
-            $zip->addFile(asset($product->image_ex2), $product->image_ex2);
-        }
-        if($product['image_ex3'] != "") {
-            $zip->addFile(asset($product->image_ex3), $product->image_ex3);
-        }
-        if($product['image_ex4'] != "") {
-            $zip->addFile(asset($product->image_ex4), $product->image_ex4);
-        }
-        if($product['image_ex5'] != "") {
-            $zip->addFile(asset($product->image_ex5), $product->image_ex5);
-        }
-        $zip->close();
         //dd($zip_file);
         // We return the file immediately after download
-        return response()->download($zip_file);
+        // Set Header
+        $headers = array(
+            'Content-Type' => 'application/octet-stream',
+        );
+        $filetopath=$public_dir.'/'.$zipFileName;
+        // Create Download Response
+        if(file_exists($filetopath)){
+            return response()->download($filetopath,$zipFileName,$headers);
+        }
+        //return response()->download($zip_file);
+        return redirect()->back();
     }
 }

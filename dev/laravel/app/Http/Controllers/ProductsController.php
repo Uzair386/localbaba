@@ -224,10 +224,10 @@ class ProductsController extends Controller
         $product = Product::findOrFail($id);
 
         // Define Dir Folder
-        $public_dir='uploads';
+        $public_dir='uploads/zip';
 
         // Zip File Name
-        $zipFileName = 'images.zip';
+        $zipFileName = $product->slug.'-images.zip';
 
         // Initializing PHP class
         $zip = new ZipArchive;

@@ -65,7 +65,7 @@ Route::get('/products', [
     'as' => 'products'
 ]);
 
-Route::get('/products/download_images', [
+Route::get('/products/download_images/{id}', [
     'uses' => 'ProductsController@download_images',
     'as' => 'products.download_images'
 ]);

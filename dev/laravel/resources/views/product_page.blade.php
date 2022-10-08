@@ -35,10 +35,10 @@
 						        Single Product Gallery Section
 						    ========================================= -->
 						    <div class="row">
-								<div style="position: relative; top: 10px; right: 10px">
-									<button class="btn btn-secondary wd-search-btn" type="submit" formaction="{{route('products.download_images',[$product->id])}}" type="submit" name="link">
+								<div style="position: relative;top: 10px;left: 10px;z-index: 1;">
+									<a class="btn btn-secondary wd-search-btn" href="{{route('products.download_images',[$product->id])}}">
 										<i class="fa fa-download" aria-hidden="true"></i> Download
-									</button>
+									</a>
 								</div>
 								<div class="col-md-12 product-slier-details">
 								    <ul id="lightSlider">

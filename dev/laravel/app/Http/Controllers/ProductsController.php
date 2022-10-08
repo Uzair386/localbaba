@@ -235,7 +235,7 @@ class ProductsController extends Controller
 
         if ($zip->open($public_dir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {
 
-
+            dd($product->image);
             // Add Files in ZipArchive
             $zip->addFile(asset($product->image), $product->image);
 

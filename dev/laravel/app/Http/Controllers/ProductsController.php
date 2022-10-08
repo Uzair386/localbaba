@@ -225,7 +225,7 @@ class ProductsController extends Controller
 
 // Initializing PHP class
         $zip = new \ZipArchive();
-        $zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->open(public_path($zip), \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
         // Adding file: second parameter is what will the path inside of the archive
         // So it will create another folder called "storage/" inside ZIP, and put the file there.
         $zip->addFile(asset($product->image), $product->image);
@@ -248,6 +248,6 @@ class ProductsController extends Controller
         $zip->close();
 
         // We return the file immediately after download
-        return response()->download($zip_file);
+        return response()->download(public_path($zip_file));
     }
 }

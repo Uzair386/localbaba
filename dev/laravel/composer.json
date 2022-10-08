@@ -25,7 +25,8 @@
         "sunra/php-simple-html-dom-parser": "^1.5",
         "usmanhalalit/laracsv": "1.*@dev",
         "weidner/goutte": "^1.0",
-        "yajra/laravel-datatables-oracle": "~8.0"
+        "yajra/laravel-datatables-oracle": "~8.0",
+      "ext-zip": "*"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

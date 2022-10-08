@@ -254,7 +254,7 @@ class ProductsController extends Controller
             if($product['image_ex5'] != "") {
                 $zip->addFile($product->image_ex5, $product->image_ex5);
             }
-            dd($zip);
+            //dd($zip);
             // Close ZipArchive
             $zip->close();
         }

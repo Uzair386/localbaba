@@ -217,4 +217,9 @@ class ProductsController extends Controller
     {
         //
     }
+
+    public function download_images($id) {
+        $product = Product::findOrFail($id);
+        dd($product);
+    }
 }

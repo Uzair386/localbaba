@@ -64,6 +64,11 @@ Route::get('/products', [
     'uses' => 'ProductsController@products',
     'as' => 'products'
 ]);
+
+Route::get('/products/download_images', [
+    'uses' => 'ProductsController@download_images',
+    'as' => 'products.download_images'
+]);
 //Product Link url //from product page
 Route::post('/link', [
     'uses' => 'ProductsController@link',

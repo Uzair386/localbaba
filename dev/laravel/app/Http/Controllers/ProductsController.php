@@ -246,7 +246,7 @@ class ProductsController extends Controller
             $zip->addFile(asset($product->image_ex5), $product->image_ex5);
         }
         $zip->close();
-        dd($zip);
+        dd($zip_file);
         // We return the file immediately after download
         return response()->download($zip_file);
     }

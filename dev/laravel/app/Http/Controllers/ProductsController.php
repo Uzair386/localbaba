@@ -223,7 +223,7 @@ class ProductsController extends Controller
         //dd($product);
         $zip_file = $product->slug.'-images.zip'; // Name of our archive to download
 
-// Initializing PHP class
+        // Initializing PHP class
         $zip = new \ZipArchive();
         $zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
         // Adding file: second parameter is what will the path inside of the archive
@@ -246,7 +246,7 @@ class ProductsController extends Controller
             $zip->addFile(asset($product->image_ex5), $product->image_ex5);
         }
         $zip->close();
-
+        dd($zip);
         // We return the file immediately after download
         return response()->download($zip_file);
     }

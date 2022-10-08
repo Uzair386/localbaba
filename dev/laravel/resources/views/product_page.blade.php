@@ -37,7 +37,7 @@
 						    <div class="row">
 								<div style="position: relative;top: 10px;left: 10px;z-index: 1;">
 									<a class="btn btn-secondary wd-search-btn" href="{{route('products.download_images',[$product->id])}}">
-										<i class="fa fa-download" aria-hidden="true"></i> Download
+										<i class="fa fa-download" aria-hidden="true"></i> Download Images
 									</a>
 								</div>
 								<div class="col-md-12 product-slier-details">

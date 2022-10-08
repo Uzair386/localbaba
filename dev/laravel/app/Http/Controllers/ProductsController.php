@@ -220,6 +220,34 @@ class ProductsController extends Controller
 
     public function download_images($id) {
         $product = Product::findOrFail($id);
-        dd($product);
+        //dd($product);
+        $zip_file = $product->slug.'-images.zip'; // Name of our archive to download
+
+// Initializing PHP class
+        $zip = new \ZipArchive();
+        $zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        // Adding file: second parameter is what will the path inside of the archive
+        // So it will create another folder called "storage/" inside ZIP, and put the file there.
+        $zip->addFile(asset($product->image), $product->image);
+
+        if($product['image_ex1'] != "") {
+            $zip->addFile(asset($product->image_ex1), $product->image_ex1);
+        }
+        if($product['image_ex2'] != "") {
+            $zip->addFile(asset($product->image_ex2), $product->image_ex2);
+        }
+        if($product['image_ex3'] != "") {
+            $zip->addFile(asset($product->image_ex3), $product->image_ex3);
+        }
+        if($product['image_ex4'] != "") {
+            $zip->addFile(asset($product->image_ex4), $product->image_ex4);
+        }
+        if($product['image_ex5'] != "") {
+            $zip->addFile(asset($product->image_ex5), $product->image_ex5);
+        }
+        $zip->close();
+
+        // We return the file immediately after download
+        return response()->download($zip_file);
     }
 }

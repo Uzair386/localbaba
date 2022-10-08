@@ -259,7 +259,7 @@ class ProductsController extends Controller
                 $img6 = explode('/',$product->image_ex5);
                 $zip->addFile($product->image_ex5, end($img6));
             }
-            dd($zip);
+
             // Close ZipArchive
             $zip->close();
         }

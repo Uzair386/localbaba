@@ -224,7 +224,7 @@ class ProductsController extends Controller
         $product = Product::findOrFail($id);
 
         // Define Dir Folder
-        $public_dir=public_path();
+        $public_dir='uploads';
 
         // Zip File Name
         $zipFileName = 'images.zip';

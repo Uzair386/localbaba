@@ -235,24 +235,24 @@ class ProductsController extends Controller
 
         if ($zip->open($public_dir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {
 
-            dd($product->image);
+            //dd($product->image);
             // Add Files in ZipArchive
-            $zip->addFile(asset($product->image), $product->image);
+            $zip->addFile($product->image, $product->image);
 
             if($product['image_ex1'] != "") {
-                $zip->addFile(asset($product->image_ex1), $product->image_ex1);
+                $zip->addFile($product->image_ex1, $product->image_ex1);
             }
             if($product['image_ex2'] != "") {
-                $zip->addFile(asset($product->image_ex2), $product->image_ex2);
+                $zip->addFile($product->image_ex2, $product->image_ex2);
             }
             if($product['image_ex3'] != "") {
-                $zip->addFile(asset($product->image_ex3), $product->image_ex3);
+                $zip->addFile($product->image_ex3, $product->image_ex3);
             }
             if($product['image_ex4'] != "") {
-                $zip->addFile(asset($product->image_ex4), $product->image_ex4);
+                $zip->addFile($product->image_ex4, $product->image_ex4);
             }
             if($product['image_ex5'] != "") {
-                $zip->addFile(asset($product->image_ex5), $product->image_ex5);
+                $zip->addFile($product->image_ex5, $product->image_ex5);
             }
             dd($zip);
             // Close ZipArchive

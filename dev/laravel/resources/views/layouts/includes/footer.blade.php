@@ -1,82 +1,102 @@
 <!-- =========================
     Footer Section
 ============================== -->
-<footer class="footer wow fadeInUp animated footer-2" data-wow-delay="900ms">
-  <div class="container-fluid custom-width">
-    <div class="row">
-      <div class="col-md-12 col-lg-3">
-        <!-- ===========================
-            Footer About
-           =========================== -->
-        <div class="footer-about">
-          <a href="{{ url('/') }}" class="footer-about-logo">
-            <img src="{{asset($settings->logo)}}" alt="Logo">
-          </a>
-          <div class="footer-description">
-            <p>{!! strip_tags(str_limit($settings->site_about, $limit = 100, $end = '...')) !!}</p><a href="{{route('single_page', ['slug'=>'about'])}}">{{ __('messages.Read_More') }}</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-lg-3 footer-nav">
-        <!-- ===========================
-            Festival Deals
-           =========================== -->
-        <h6 class="footer-subtitle">{{ __('messages.Our_Store') }}</h6>
-        <div class="footer-description">
-        <p><i class="fa fa-phone"  aria-hidden="true"></i> {{$settings->site_number}}</p>
-        <p><i class="fa fa-envelope" aria-hidden="true"></i> {{$settings->site_email}}</p><hr />
-        <div class="wb-social-media">
-          <a href="{{$settings->social_facebook}}" class="fb" name="Facebook" ><i class="fa fa-facebook-official"></i></a>
-          <a href="{{$settings->social_twitter}}" class="vn" name="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-          <a href="{{$settings->social_facebook}}" class="gp" name="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-          <a rel="alternate" type="application/atom+xml" href="{{ url('/feed') }}" name="Rss Feed"><i class="fa fa-rss" aria-hidden="true"></i></a>
-        </div>
-      </div>
-      </div>
-      <div class="col-md-12 col-lg-3 footer-nav">
-        <!-- ===========================
-            About
-           =========================== -->
-        <h6 class="footer-subtitle">{{ __('messages.Pages') }}</h6>
-          <ul>
-            @foreach($pages as $page)
-            <li><a href="{{route('single_page', ['slug'=>$page->slug])}}">{{$page->title}}</a></li>
-            @endforeach
-          </ul>
-      </div>
-      <div class="col-12 col-md-12 col-lg-3">
-        <h6 class="footer-subtitle text-center"><u>{{ __('messages.Express_Shopping') }}</u></h6>
-         <h4 class="text-center"><a href="{{ url('/') }}">
-          <img src="{{asset('uploads\defaults\footer-image.png')}}" alt="HTML5 Icon" ></a>
-        </h4>
-      </div>
-    </div>
-  </div>
-</footer>
-<!-- =========================
-    CopyRight
-============================== -->
-<section class="copyright wow fadeInUp animated copyright-2" data-wow-delay="1500ms">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="copyright-text">
-          <p class="text-uppercase">{{ __('messages.COPYRIGHT') }} &copy; <?php echo date("Y"); ?></p><a class="created-by" href="{{ url('/') }}">{{$settings->site_name}}</a>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="brand-logo">
-          <img src="{{asset('uploads\defaults\payment-1.png')}}" alt="Payment-1">
-          <img src="{{asset('uploads\defaults\payment-2.png')}}" alt="Payment-2">
-          <img src="{{asset('uploads\defaults\payment-3.png')}}" alt="Payment-3">
-          <img src="{{asset('uploads\defaults\payment-4.png')}}" alt="Payment-4">
-          <img src="{{asset('uploads\defaults\payment-5.png')}}" alt="Payment-5">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<div id="doba-footer" class="visitor-footer visitor-mobile-footer ">
+  <div class="footer-info-wrap ">
+    <div class="footer-info-content">
+      <div class="footer-info-col pc-des">
+        <div class="footer-title" style="margin-bottom: 0px;">
+          <span class="doba-footer-logo"><span
+                    style="box-sizing:border-box;display:inline-block;overflow:hidden;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;position:relative;max-width:100%"><span
+                      style="box-sizing:border-box;display:block;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;max-width:100%"><img
+                        style="display:block;max-width:100%;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0"
+                        alt="" aria-hidden="true" src="{{asset($settings->logo)}}" /></span><img
+                      alt="local baba logo"
+                      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                      decoding="async" data-nimg="intrinsic"
+                      style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%" /><noscript><img
+                        alt="doba logo"
+                        srcSet="{{asset($settings->logo)}}, {{asset($settings->logo)}}"
+                        src="{{asset($settings->logo)}}" decoding="async"
+                        data-nimg="intrinsic"
+                        style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"
+                        loading="lazy" /></noscript></span></span></div>
+        <ul class="footer-group">
+          <li class="footer-text paragraph">
+            {!! strip_tags(str_limit($settings->site_about, $limit = 100, $end = '...')) !!}
+          </li>
+          <li><a class="more" href="{{route('single_page', ['slug'=>'about'])}}" title="View More">View More<i
+                      type="right" class="cb-icon icon-right "></i></a></li>
+        </ul>
 
+      </div>
+      <div class="footer-info-col col-block ">
+        <div class="footer-title footer-list-title">Company<i
+                  class="cb-icon icon-down-arrow-Bold mobile-show " type="down-arrow-Bold"></i></div>
+        <ul class="col-list">
+          <li><a href="{{route('single_page', ['slug'=>'about'])}}" target="_blank">About us</a></li>
+          <li><a href="#" target="_blank">Get in Touch</a></li>
+          <li class="footer-text pc-des">{{$settings->site_name}} <br />{{$settings->site_number}} <br />
+            {{$settings->site_email}} <br />
+            <div style="inline-size: 300px; overflow-wrap: break-word;">{{$settings->site_address}}</div></li>
+          <li class="footer-text mobile-show address">{{$settings->site_address}}</li>
+        </ul>
+      </div>
+      <div class="footer-info-col col-block ">
+        <div class="footer-title footer-list-title">Resources<i
+                  class="cb-icon icon-down-arrow-Bold mobile-show " type="down-arrow-Bold"></i></div>
+        <ul class="col-list">
+          <li><a href="#" target="_blank">Return &amp; Refund Policy</a></li>
+          <li><a href="{{route('single_page', ['slug'=>'tos'])}}" target="_blank">Terms of Use</a></li>
+          <li><a href="{{route('single_page', ['slug'=>'privacy-policy'])}}" target="_blank">Privacy Policy</a></li>
+          <li><a href="{{route('single_page', ['slug'=>'posts'])}}" rel="noopener" target="_blank">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-info-col mobile-des">
+        <div class="footer-title">
+          <span class="doba-footer-logo">
+            <span style="box-sizing:border-box;display:inline-block;overflow:hidden;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;position:relative;max-width:100%"><span style="box-sizing:border-box;display:block;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;max-width:100%">
+                <img style="display:block;max-width:100%;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0"
+                     alt="" aria-hidden="true"
+                     src="{{asset($settings->logo)}}" /></span>
+              <img alt="doba logo"
+                      src="{{asset($settings->logo)}}"
+                      decoding="async" data-nimg="intrinsic"
+                      style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%" /><noscript><img
+                        alt="doba logo"
+                        srcSet="{{asset($settings->logo)}}"
+                        src="{{asset($settings->logo)}}" decoding="async"
+                        data-nimg="intrinsic"
+                        style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"
+                        loading="lazy" /></noscript>
+            </span>
+          </span>
+        </div>
+        <ul class="footer-group">
+          <li class="footer-text paragraph">
+            {!! strip_tags(str_limit($settings->site_about, $limit = 100, $end = '...')) !!}
+          </li>
+          <li class="more-wrap"><a class="more" href="{{route('single_page', ['slug'=>'about'])}}" title="View More">View More<i type="right" class="cb-icon icon-right "></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- =========================
+        CopyRight
+    ============================== -->
+    <div class="footer-bottom d-flex justify-content-between text-white pt-4 wow fadeInUp animated mx-4 mx-md-0" style="margin-top: 0px" data-wow-delay="1500ms">
+      <span>©Copyright 2022 {{$settings->site_name}} - All Rights Reserved</span>
+      <div class="wb-social-media">
+        <a href="{{$settings->social_facebook}}" class="fb" name="Facebook" ><i class="fa fa-facebook-official"></i></a>
+        <a href="{{$settings->social_twitter}}" class="vn" name="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        <a href="{{$settings->social_instagram}}" class="gp" name="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        <a rel="alternate" type="application/atom+xml" href="{{ url('/feed') }}" name="Rss Feed"><i class="fa fa-rss" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
 <!-- =========================
   Main Loding JS Script
 ============================== -->

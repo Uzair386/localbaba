@@ -94,7 +94,7 @@
                     <strong>{{ __('messages.Cart is  Empty') }}</strong>.
                   </div>
                 </p> <a href="{{ url('/products') }}" class="btn btn-warning"><i
-                    class="fa fa-angle-left"></i>{{ __('messages.Continue Shopping') }}</a>
+                    class="fa fa-angle-left mr-2"></i>{{ __('messages.Continue Shopping') }}</a>
               </center>
               @endif
             </table>

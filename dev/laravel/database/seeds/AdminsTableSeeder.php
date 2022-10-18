@@ -12,9 +12,9 @@ class AdminsTableSeeder extends Seeder
     public function run()
     {
       App\Admin::create([
-      'name' =>'rootuser',
+      'name' =>'root',
       'display_name' =>'Root',
-      'email' =>'info@products.com.ng',
+      'email' =>'root@localbaba.pk',
       'password' =>bcrypt('password')
     ]);
     }

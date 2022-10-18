@@ -987,18 +987,12 @@ class CurrencyTableSeeder extends Seeder
                        'html_entity'=>'&#x0052;',
                     ]);
                     App\Currency::create([
-                       'code'=>'ZMK',
-                       'name'=>'Zambian Kwacha',
-                       'symbol'=>'ZK',
-                       'html_entity'=>'',
-                    ]);
-                    App\Currency::create([
                        'code'=>'ZMW',
                        'name'=>'Zambian Kwacha',
                        'symbol'=>'ZK',
                        'html_entity'=>'',
                     ]);
         // Uncomment the below to run the seeder
-        // App\Currency::table('currencies')->insert($currencies);
+        App\Currency::table('currencies')->insert($currencies);
     }
     }

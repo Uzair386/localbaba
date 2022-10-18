@@ -74,6 +74,84 @@
   <link rel="preload" href="/_next/static/css/cf4086cb4fa6f6f4.css" as="style" />
   <link rel="stylesheet" href="/_next/static/css/cf4086cb4fa6f6f4.css" data-n-p="" />
   <noscript data-n-css=""></noscript>
+  <style>
+    .wd-tab-section .wd-tab-menu .active {
+      background: #ef7f4e !important;
+    }
+    .wd-tab-section .wd-tab-menu a:hover {
+      background: #ef7f4e !important;
+    }
+
+    a {
+      color: #ef7f4e;
+    }
+    a:hover {
+      color: #ef704e !important;
+    }
+    .ant-btn-primary, .free-trial:hover,.active-color:hover {
+      background: #ef7f4e !important;
+      border-color: #ef7f4e !important;
+      color: white !important;
+    }
+    .header-cart .count {
+      background: #ef704e !important;
+    }
+
+    .header-cart .coupon-save:hover {
+      color: #ef704e !important;
+    }
+
+    .dsc-user-info .bd-r>a:hover {
+      color: #ef704e !important;
+    }
+
+    ::-moz-selection { /* Code for Firefox */
+      color: white !important;
+      background: #ef704e !important;
+    }
+
+    ::selection {
+      color: white !important;
+      background: #ef704e !important;
+    }
+
+    .ant-btn-primary:focus, .ant-btn-primary:hover,.sidebar-search .btn-secondary:hover {
+      background: #ef704e !important;
+      border-color: #ef704e !important;
+    }
+    .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+      border-color: #ef704e !important;
+    }
+    .free-trial,.ant-btn:focus, .ant-btn:hover {
+      color: #ef704e !important;
+      border-color: #ef704e !important;
+    }
+
+    .ant-btn-primary:hover {
+      color: white !important;
+    }
+
+    #register-intro-btn:hover {
+      color: white !important;
+    }
+
+    .products-wrap a:hover {
+      color: #ef704e !important;
+    }
+    .side-bar a:hover, .active-color , .category-bar .category-item.active, .category-bar .category-item:hover, .category-bar .category-more-item.active, .category-bar .category-more-item:hover,.category-bar .category-item.active>.category-title .cb-icon, .category-bar .category-item.active>.category-title a, .category-bar .category-item:hover>.category-title .cb-icon, .category-bar .category-item:hover>.category-title a, .category-bar .category-more-item.active>.category-title .cb-icon, .category-bar .category-more-item.active>.category-title a, .category-bar .category-more-item:hover>.category-title .cb-icon, .category-bar .category-more-item:hover>.category-title a {
+      color: #ef704e !important;
+    }
+    .product-name span {
+      width: 100%;
+      font-size: 14px;
+      line-height: 22px;
+      display: block;
+      color: #222;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  </style>
 
   <!-- End New Theme Styles -->
 

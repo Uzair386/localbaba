@@ -11,6 +11,7 @@ class VariantTableSeeder extends Seeder
      */
     public function run()
     {
+        /*
     App\Variant::create([
         'name' =>'Colour',
      ]);
@@ -22,5 +23,9 @@ class VariantTableSeeder extends Seeder
     App\Variant::create([
         'name' =>'Condition',
      ]);
+    */
+        App\Variant::create([
+            'name' =>'Bulk',
+        ]);
     }
 }

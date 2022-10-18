@@ -16,7 +16,7 @@ class SettingsTableSeeder extends Seeder
       'currency_id' =>'147',
       'logo'=>'uploads/logo/logo.png',
       'site_name'=>'Qp Dropship',
-      'site_email'=>'info@products.com.ng',
+      'site_email'=>'support@localbaba.pk',
       'site_about'=>'Lorem ipsum dolor sit amet, anim id est laborum. Sed ut perspconsectetur, adipisci vam aliquam qua',
       'site_address'=>'Lorem ipsum dolor sit amet, anim id est laborum. Sed ut perspconsectetur, adipisci vam aliquam qua',
       'site_number'=>'+123456789',

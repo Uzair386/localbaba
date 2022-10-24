@@ -616,16 +616,42 @@ $rows=0;
 $imported=0;
 $updated=0;
 $incomplete=0;
+$handle = null;
+$product = null;
 if (($getdata = fopen($filepath, "r")) !== FALSE) {
 			   fgetcsv($getdata);
 			   while (($data = fgetcsv($getdata)) !== FALSE) {
-           $rows++;
 					$fieldCount = count($data);
 					for ($c=0; $c < $fieldCount; $c++) {
 					  $columnData[$c] = $data[$c];
 					}
-		      $product_name               = $columnData[0];
-          $product_price              = $columnData[1];
+                    if($handle!=null && $handle == $columnData[0]) {
+                        if($columnData[26] != '1') {
+                            if (!empty($columnData[26])) {
+                                if ($columnData[26] == '2') {
+                                    $product->image_ex1 = $columnData[25];
+                                }
+                                if ($columnData[26] == '3') {
+                                    $product->image_ex2 = $columnData[25];
+                                }
+                                if ($columnData[26] == '4') {
+                                    $product->image_ex3 = $columnData[25];
+                                }
+                                if ($columnData[26] == '5') {
+                                    $product->image_ex4 = $columnData[25];
+                                }
+                                if ($columnData[26] == '6') {
+                                    $product->image_ex5 = $columnData[25];
+                                }
+                                $product->save();
+                            }
+                            continue;
+                        }
+                    }
+                   $rows++;
+                   $handle = $columnData[0];
+		      $product_name               = $columnData[1];
+          $product_price              = $columnData[20];
           $product_price              = str_replace(',', '', $product_price);
           $product_price              = str_replace(' ', '', $product_price);
           $product_price              = preg_replace("/[^0-9,]/", "", $product_price);
@@ -636,13 +662,13 @@ if (($getdata = fopen($filepath, "r")) !== FALSE) {
           //calc price_percent_gain
 
           // $product_price              = preg_replace('/\D/', '', $product_price);
-          $product_stock              = ($columnData[2]);
+          $product_stock              = ($columnData[17]);
           $product_stock              = preg_replace('/\D/', '', $product_stock);
 
-          $product_description        = ($columnData[3]);
-		        $product_image            = ($columnData[4]);
-		    $product_original_url          = ($columnData[5]);
-              $product_url_slug 		  = str_slug ($product_name);
+          $product_description        = ($columnData[2]);
+		  $product_image            = ($columnData[25]);
+		  $product_original_url          = ($columnData[5]);
+          $product_url_slug 		  = str_slug ($product_name);
           $product_merchant           = $request->supplier_id;
           $product_category           = $request->selected_category;
 

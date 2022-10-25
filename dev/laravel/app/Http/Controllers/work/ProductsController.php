@@ -547,19 +547,20 @@ if($setting->live_production==0){
           $csv_file->move($target_dir,$csv_file_new_name);
           $target_file = 'uploads/imports/import.csv';
     			//////////Check Header
-    			$requiredHeaders = array('name', 'price','stock', 'description', 'image', 'original_url'); //headers we expect
+    			$requiredHeaders = array('Title', 'Variant Price','Variant Inventory Qty', 'Body (HTML)', 'Image Src', /*'original_url'*/); //headers we expect
     			$header_check = fopen($target_file, 'r');
     			$firstLine = fgets($header_check); //get first line of csv file
     			fclose($header_check);
     			$foundHeaders = str_getcsv(trim($firstLine), ',', '"'); //parse to array
 
-          if ($foundHeaders !== $requiredHeaders) {
+          /*if ($foundHeaders !== $requiredHeaders) {
             Session::flash('error', "File headers do not match");
     			   // print 'Headers do not match: '.implode(', ', $foundHeaders);
     				 unlink($target_file);
              Session::flash('info', "File Deleted, Please Check the sample");
              return redirect()->back();
     			}
+          */
           if (($getdata = fopen($target_file, "r")) !== FALSE) {
     			   fgetcsv($getdata);
     			   fclose($getdata);
@@ -606,12 +607,12 @@ $firstLine = fgets($header_check); //get first line of csv file
 fclose($header_check);
 $foundHeaders = str_getcsv(trim($firstLine), ',', '"'); //parse to array
 
-if ($foundHeaders !== $requiredHeaders) {
+/*if ($foundHeaders !== $requiredHeaders) {
   Session::flash('error', "File headers do not match");
    unlink($filepath);
    Session::flash('info', "File Deleted, Please Check the sample");
    return redirect()->back();
-}
+}*/
 $rows=0;
 $imported=0;
 $updated=0;
@@ -651,10 +652,10 @@ if (($getdata = fopen($filepath, "r")) !== FALSE) {
                    $rows++;
                    $handle = $columnData[0];
 		      $product_name               = $columnData[1];
-          $product_price              = $columnData[20];
-          $product_price              = str_replace(',', '', $product_price);
+          $product_price              = $columnData[47];
+          /*$product_price              = str_replace(',', '', $product_price);
           $product_price              = str_replace(' ', '', $product_price);
-          $product_price              = preg_replace("/[^0-9,]/", "", $product_price);
+          $product_price              = preg_replace("/[^0-9,]/", "", $product_price);*/
 
           //calc price_percent_gain
           $percentage_value = ($product_price/100)*$setting->price_percent_gain;//get percentage value
@@ -667,13 +668,33 @@ if (($getdata = fopen($filepath, "r")) !== FALSE) {
 
           $product_description        = ($columnData[2]);
 		  $product_image            = ($columnData[25]);
-		  $product_original_url          = ($columnData[5]);
+		  //$product_original_url          = ($columnData[5]);
           $product_url_slug 		  = str_slug ($product_name);
           $product_merchant           = $request->supplier_id;
-          $product_category           = $request->selected_category;
+          $category = explode(' > ',$columnData[4]);
+          $parent = 0;
+          $product_category = 0;
+          foreach ($category as $parent_catgory) {
+              $get_category = Category::where('name',$parent_catgory)->first();
+              if ($get_category==null) {
+                  $get_category = Category::create([
+                      'name'=> $parent_catgory,
+                      'parent_id'=> $parent,
+                      'description'=>$parent_catgory,
+                      'slug'=>str_slug($parent_catgory),
+                  ]);
+              }
+              if($parent_catgory == end($category)) {
+                  $product_category = $get_category->id;
+              }
+              else {
+                  $parent = $get_category->id;
+              }
+          }
+          //$product_category           = $request->selected_category;
 
           //check for empty fields and rows
-          if (empty($product_merchant) || empty($product_name) || empty($product_price)|| empty($product_stock) || empty($product_image) || empty($product_original_url)) {
+          if (empty($product_merchant) || empty($product_name) || empty($product_price)|| empty($product_stock) || empty($product_image) /*|| empty($product_original_url)*/) {
           $incomplete++;
           continue;
           }
@@ -690,11 +711,11 @@ if (($getdata = fopen($filepath, "r")) !== FALSE) {
           //     continue;
           //     //skip if the product exists //verifying via original url
           // }
-          // if (Product::where('slug', '=',$product_url_slug)->exists()) {
-          //     $updated++;
-          //     continue;
-          //     // skip if slug exists
-          // }
+          if (Product::where('slug', '=',$product_url_slug)->exists()) {
+               $updated++;
+               continue;
+               // skip if slug exists
+          }
 
          // SQL Query to insert data into DataBase
          $product = Product::create([
@@ -705,11 +726,11 @@ if (($getdata = fopen($filepath, "r")) !== FALSE) {
              'price'=>$new_price,
              'stock'=>$product_stock,
              'supplier_id'=>$product_merchant,
-             'original_url'=>$product_original_url,
+             //'original_url'=>$product_original_url,
              'slug'=>$product_url_slug,
              'image'=>$product_image,
            ]);
-	$imported++;
+            $imported++;
           }
           unset($getdata);
           if (file_exists($filepath)){

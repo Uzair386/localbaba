@@ -31,7 +31,7 @@
     <hr>
     <div class="row">
 
-      <div class="col-md-6">
+      <div class="col-md-8">
         <form role="form" action="{{route('work.product.csv_upload')}}" method="post" enctype="multipart/form-data">
           {{csrf_field()}}
           <div class="form-group">
@@ -49,22 +49,22 @@
 
 
 
-      <div class="col-md-3">
+      <!--<div class="col-md-3">
         <form action="{{route('work.product.csv_import')}}" method="post" enctype="multipart/form-data">
           {{csrf_field()}}
           <div class="input-group">
             {!!$categories!!}
           </div>
         </form>
-      </div>
+      </div>-->
 
 
-      <div class="col-md-3">
+      <div class="col-md-4">
         <form action="{{route('work.product.csv_import')}}" method="post" enctype="multipart/form-data">
           {{csrf_field()}}
           <div class="input-group">
             <select id="supplier_id" required name="supplier_id" class="form-control form-control-primary fill">
-              <option value="">-- Select Account --</option>
+              <option value="">-- Select Supplier --</option>
               @foreach($suppliers as $supplier)
               <option value="{{$supplier->id}}">{{$supplier->name}}</option>
               @endforeach

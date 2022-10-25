@@ -39,7 +39,7 @@ class FrontEndController extends Controller
     ->with('latest_product',Product::where('parent_id', '=', 0)->orderBy('id','desc')->first())
     ->with('most_viewed_product',Product::where('parent_id', '=', 0)->orderBy('views_count','desc')->first())
     ->with('next_to_latest_product',Product::where('parent_id', '=', 0)->orderBy('id','desc')->skip(1)->take(1)->get()->first())
-    ->with('categories',(Category::all()))
+    ->with('categories',(Category::where('parent_id',0)->where('id','!=',1)->orderBy('name')->paginate(10)))
     ->with('pages',(Page::all()))
     ->with('slides',(Slider::all()))
     ->with('products',$products)

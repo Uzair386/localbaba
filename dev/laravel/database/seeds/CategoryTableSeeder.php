@@ -13,8 +13,8 @@ class CategoryTableSeeder extends Seeder
     {
       App\Category::create([
       'parent_id' =>'0',
-      'name' =>'General',
-      'slug' =>'general',
+      'name' =>'Root',
+      'slug' =>'root',
       'description' =>'Default Root Table',
     ]);
     }

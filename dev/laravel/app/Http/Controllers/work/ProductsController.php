@@ -671,6 +671,12 @@ if (($getdata = fopen($filepath, "r")) !== FALSE) {
 		  //$product_original_url          = ($columnData[5]);
           $product_url_slug 		  = str_slug ($product_name);
           $product_merchant           = $request->supplier_id;
+
+          if(empty($columnData[4])) {
+              $incomplete++;
+              continue;
+          }
+
           $category = explode(' > ',$columnData[4]);
           $parent = 0;
           $product_category = 0;

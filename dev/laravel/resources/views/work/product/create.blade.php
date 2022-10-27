@@ -153,9 +153,21 @@
                     </div>
                 </div>
                 <br>
-                <button type="submit" class="btn btn-primary m-t-15 waves-effect">Create</button>
+            </div>
+            <div class="row">
+                <label class="col-sm-4 col-lg-2 col-form-label">Select Product Status</label>
+                <div class="col-sm-8 col-lg-10">
+                    <div class="input-group">
+                        <select id="product_status" name="product_status" class="form-control show-tick">
+                            <option value="0">Draft</option>
+                            <option value="1">Active</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+            </div>
+                <button type="submit" class="btn btn-primary m-t-15 waves-effect mx-auto">Create</button>
         </form>
-        <hr />
     </div>
 </div>
 

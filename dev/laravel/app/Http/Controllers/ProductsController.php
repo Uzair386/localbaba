@@ -25,7 +25,7 @@ class ProductsController extends Controller
     {
       $settings =Setting::first();
       // $posts = Post::orderBy('id', 'desc')->take(6)->get();
-      $products = Product::where('parent_id', '=', 0)->orderBy('id', 'desc')->paginate(9);
+      $products = Product::where('active',1)->where('parent_id', '=', 0)->orderBy('id', 'desc')->paginate(9);
       return view('products')
       ->with('products',$products)
       ->with('categories',(Category::all()))
@@ -47,11 +47,11 @@ class ProductsController extends Controller
       $settings =Setting::first();
       // $products = Product::all()->where('parent_id', '=', 0);
       // $products = Product::all()->where('parent_id', '=', 0)->get();
-      $products = Product::where('parent_id', '=', 0);
+      $products = Product::where('active',1)->where('parent_id', '=', 0);
       $products = $products->where('name','like',  '%' . $query . '%')
                            ->orwhere('description','like',  '%' . $query . '%')
                            ->orderBy($settings->search_element, $settings->search_order);
-      $products = $products->where('parent_id', '=', 0)->paginate(9);
+      $products = $products->where('active',1)->where('parent_id', '=', 0)->paginate(9);
       return view('search')
       ->with('query',$query)
       ->with('products',$products)
@@ -84,7 +84,7 @@ class ProductsController extends Controller
       ////////// Product Views Updater //////////
       //Compare
       $query = $product->name;
-      $compared_products_search = Product::where('parent_id', '=', 0);
+      $compared_products_search = Product::where('active',1)->where('parent_id', '=', 0);
       $compared_products_search = $compared_products_search->where('name','like',  '%' . $query . '%')->orderBy('price', 'asc')->get();
       // dd($compared_products_search);
 
@@ -134,7 +134,7 @@ class ProductsController extends Controller
         //       }
 
       //get random Products
-      $rand_products = Product::where('parent_id', '=', 0)->inRandomOrder()->limit(5)->get();
+      $rand_products = Product::where('active',1)->where('parent_id', '=', 0)->inRandomOrder()->limit(5)->get();
       return view('product_page')
       ->with('product',$product)
       ->with('compared_products',$compared_products)

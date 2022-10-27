@@ -82,6 +82,7 @@ class ProductsController extends Controller
         'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000', // max 10000kb,
         'price'=>'required|numeric|between:0,999999999999999999999999999.99',
         'stock'=>'required',
+        'product_status' => 'required|numeric|between:0,1',
       ]);
       //checks for duplicate slug
       if (Product::where('slug', '=',str_slug($request->name))->exists()) {
@@ -158,7 +159,7 @@ class ProductsController extends Controller
           'image_ex4' => $image_ex4,
           'image_ex5' => $image_ex5,
           'unique_value'=> $unique_value,
-          // 'active'=>$request->active,
+          'active'=> $request->product_status,
         ]);
         if ($request->variation_type==1){
           //if single product
@@ -238,6 +239,7 @@ class ProductsController extends Controller
         'stock'=>'required',
         'price'=>'required|numeric|between:0,999999999999999999999999999.99',
         'supplier_price'=>'required|numeric|between:0,999999999999999999999999999.99',
+        'product_status' => 'required|numeric|between:0,1',
       ]);
       //images
       $randomNum=substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTVWXYZ"), 0, 6);
@@ -306,6 +308,7 @@ class ProductsController extends Controller
       $product->stock          = $request->stock;
       $product->supplier_id    = $request->supplier_id;
       $product->original_url   = $request->original_url;
+      $product->active   = $request->product_status;
       $product->save();
       Session::flash('success','Successfully Updated');
       return redirect()->route('products');

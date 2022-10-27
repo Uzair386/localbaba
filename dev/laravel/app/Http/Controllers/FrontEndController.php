@@ -30,15 +30,15 @@ class FrontEndController extends Controller
       //homepage
       $settings =Setting::first();
       //random products
-      $products = Product::where('parent_id', '=', 0)->inRandomOrder()->limit($settings->home_rand_pro)->get();
+      $products = Product::where('active',1)->where('parent_id', '=', 0)->inRandomOrder()->limit($settings->home_rand_pro)->get();
       //get 4 latest posts
       $posts = Post::orderBy('id', 'desc')->take($settings->home_posts)->get();
       $users = User::where('active', '=',1)->take($settings->home_users)->get();
       // $users = User::orderBy('id', 'desc')->take($settings->home_users)->get();
       return view('index')
-    ->with('latest_product',Product::where('parent_id', '=', 0)->orderBy('id','desc')->first())
-    ->with('most_viewed_product',Product::where('parent_id', '=', 0)->orderBy('views_count','desc')->first())
-    ->with('next_to_latest_product',Product::where('parent_id', '=', 0)->orderBy('id','desc')->skip(1)->take(1)->get()->first())
+    ->with('latest_product',Product::where('active',1)->where('parent_id', '=', 0)->orderBy('id','desc')->first())
+    ->with('most_viewed_product',Product::where('active',1)->where('parent_id', '=', 0)->orderBy('views_count','desc')->first())
+    ->with('next_to_latest_product',Product::where('active',1)->where('parent_id', '=', 0)->orderBy('id','desc')->skip(1)->take(1)->get()->first())
     ->with('categories',(Category::where('parent_id',0)->where('id','!=',1)->orderBy('name')->paginate(10)))
     ->with('pages',(Page::all()))
     ->with('slides',(Slider::all()))
@@ -89,7 +89,7 @@ class FrontEndController extends Controller
       $settings =Setting::first();
       $category_page = Category::where('slug',$slug)->first();
       //get category products
-      $products =Product::where('parent_id', '=', 0)->where('category_id',$category_page->id)->paginate(9);
+      $products =Product::where('active',1)->where('parent_id', '=', 0)->where('category_id',$category_page->id)->paginate(9);
       return view('category_page')
       ->with('category_page',$category_page)
       ->with('products',$products)
@@ -120,7 +120,7 @@ $feed->setCache(60, 'laravelFeedKey');
 if (!$feed->isCached())
 {
  // creating rss feed with our most recent 20 posts
- $products = \DB::table('products')->where('parent_id', '=', 0)->orderBy('created_at', 'desc')->take(20)->get();
+ $products = \DB::table('products')->where('active',1)->where('parent_id', '=', 0)->orderBy('created_at', 'desc')->take(20)->get();
 
  // set your feed's title, description, link, pubdate and language
  $feed->title = $settings->site_name;

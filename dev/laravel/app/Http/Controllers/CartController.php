@@ -46,6 +46,13 @@ class CartController extends Controller
       Session::flash('error', __('messages.Stock is : 0'));
       return redirect()->back();
     }
+
+    if ($product->active == 0) {
+        Cart::remove($cart->rowId);
+        Session::flash('error', 'Product is not published');
+        return redirect()->back();
+    }
+
     if ($cart->qty > $product->stock) {
       Cart::update($cart->rowId, $cart->qty - 1);
       Session::flash('warning', __('messages.Max Stock is :')." $product->stock");

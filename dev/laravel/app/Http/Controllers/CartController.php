@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Country;
 use Illuminate\Http\Request;
 use Cart;
 use App\Setting;
@@ -23,7 +24,8 @@ class CartController extends Controller
     return view('cart')
       ->with('categories', (Category::all()))
       ->with('pages', (Page::all()))
-      ->with('settings', $settings);
+      ->with('settings', $settings)
+      ->with('countries', Country::all());
   }
   public function add_to_cart()
   {

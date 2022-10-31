@@ -738,6 +738,7 @@ if (($getdata = fopen($filepath, "r")) !== FALSE) {
              //'original_url'=>$product_original_url,
              'slug'=>$product_url_slug,
              'image'=>$product_image,
+             'active' =>  $columnData[50] == 'active' ? 1 : 0,
            ]);
             $imported++;
           }

@@ -8,7 +8,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h5>&nbsp;Invoices</h5>
+        <h5>&nbsp;Orders</h5>
     </div>
     <div class="icon-and-text-button-demo">
 

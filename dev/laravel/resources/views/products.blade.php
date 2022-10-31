@@ -45,17 +45,22 @@
          <div class="order-1 order-md-1 col-12 col-md-8 col-lg-9 product-grid">
             <div class="row">
                <div class="col-12">
-                  <div class="filter row">
+                  <div class="filter d-flex justify-content-between align-items-center py-2">
                      <div class="col-8 col-md-3">
                         <h6 class="result"><b>{{ __('messages.Total') }}</b> {{$products->total()}} {{__('messages.Showing') }}  {{$products->count()}} {{ __('messages.results') }}</h6>
                      </div>
                      <div class="col-6 col-md-6 filter-btn-area text-center">
                         <b>{{ __('messages.products') }}</b>
                      </div>
-                     <div class="col-4 col-md-3 sorting text-right">
-                        <a href="{{ url('/products') }}">
-                        <i class="fa fa-th active-color" aria-hidden="true"></i>
-                        </a>
+                     <div class="col-4 col-md-3 text-right">
+                        <select class="form-control cart66-select" id="sel1"  name="product_id" style="font-size: inherit">
+                           <option @if(request()->get('order') == null) selected @endif data-url="{{url('/products')}}">Sort by</option>
+                           <option @if(request()->get('order') == 'name') selected @endif data-url="{{url('/products')}}?order=name">Product Title</option>
+                           <option @if(request()->get('order') == 'stock_h') selected @endif data-url="{{url('/products')}}?order=stock_h">Highest Inventory</option>
+                           <option @if(request()->get('order') == 'stock_l') selected @endif data-url="{{url('/products')}}?order=stock_l">Lowest Inventory</option>
+                           <option @if(request()->get('order') == 'price_h') selected @endif data-url="{{url('/products')}}?order=price_h">Highest Price</option>
+                           <option @if(request()->get('order') == 'price_l') selected @endif data-url="{{url('/products')}}?order=price_l">Lowest Price</option>
+                        </select>
                      </div>
                   </div>
                </div>
@@ -117,7 +122,7 @@
          					<div class="float-right">
          						<nav class="wd-pagination">
          						  <ul class="pagination">
-         						  	{{$products->links()}}
+                                     {{ $products->appends(request()->query())->links() }}
          						  </ul>
          						</nav>
          					</div>
@@ -156,4 +161,10 @@ background: #ff9800;
 color: #fff;
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+   $('.cart66-select').on('change', function () {
+      window.location.href = $(this).children("option:selected").data('url')
+   });
+</script>
 @endsection

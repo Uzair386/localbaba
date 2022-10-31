@@ -25,10 +25,24 @@ class ProductsController extends Controller
     {
       $settings =Setting::first();
       // $posts = Post::orderBy('id', 'desc')->take(6)->get();
-      $products = Product::where('active',1)->where('parent_id', '=', 0)->orderBy('id', 'desc')->paginate(9);
+      $products = Product::where('active',1)->where('parent_id', '=', 0);
+      $order = request()->get('order');
+      $orders  = [
+          'name' => ['name','asc'],
+          'stock_h' => ['stock','desc'],
+          'stock_l' => ['stock','asc'],
+          'price_h' => ['price','desc'],
+          'price_l' => ['price','asc'],
+      ];
+      if(isset($order) && array_key_exists($order,$orders)) {
+          $products = $products->orderBy($orders[$order][0], $orders[$order][1])->paginate(9);
+      }
+      else {
+          $products = $products->orderBy('id', 'desc')->paginate(9);
+      }
       return view('products')
       ->with('products',$products)
-      ->with('categories',(Category::all()))
+      ->with('categories',Category::where('parent_id',0)->where('id','!=',1)->orderBy('name')->get())
       ->with('pages',(Page::all()))
       ->with('settings',$settings);
     }
@@ -51,11 +65,25 @@ class ProductsController extends Controller
       $products = $products->where('name','like',  '%' . $query . '%')
                            ->orwhere('description','like',  '%' . $query . '%')
                            ->orderBy($settings->search_element, $settings->search_order);
-      $products = $products->where('active',1)->where('parent_id', '=', 0)->paginate(9);
+      $products = $products->where('active',1)->where('parent_id', '=', 0);
+      $order = request()->get('order');
+      $orders  = [
+          'name' => ['name','asc'],
+          'stock_h' => ['stock','desc'],
+          'stock_l' => ['stock','asc'],
+          'price_h' => ['price','desc'],
+          'price_l' => ['price','asc'],
+      ];
+      if(isset($order) && array_key_exists($order,$orders)) {
+          $products = $products->orderBy($orders[$order][0], $orders[$order][1])->paginate(9);
+      }
+      else {
+          $products = $products->orderBy('id', 'desc')->paginate(9);
+      }
       return view('search')
       ->with('query',$query)
       ->with('products',$products)
-      ->with('categories',(Category::all()))
+      ->with('categories',Category::where('parent_id',0)->where('id','!=',1)->orderBy('name')->get())
       ->with('pages',(Page::all()))
       ->with('settings',$settings);
     }

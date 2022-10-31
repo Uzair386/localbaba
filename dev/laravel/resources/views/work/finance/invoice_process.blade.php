@@ -33,7 +33,11 @@
                         <div class="col-md-6 col-lg-6">
                             @if ($invoice->status == 1)
                             <h4>
+                                @if($invoice->payment_method != 'Cash On Delivery')
                                 <font color="779500" class="pull-right" align="right">{{ __('messages.PAID') }}</font>
+                                @else
+                                    <font color="779500" class="pull-right" align="right">Cash On Delivery</font>
+                                @endif
                             </h4>
                             @elseif($invoice->status==0 && $invoice->validity > Carbon::now())
                             <h4>

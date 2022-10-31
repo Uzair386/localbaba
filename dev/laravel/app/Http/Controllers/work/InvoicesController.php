@@ -64,7 +64,12 @@ class InvoicesController extends Controller
       return "$invoices_date";
     })
     ->addColumn('invoice_status', function($invoices) {
-            return '<a href="" class="btn btn-success btn-xs disabled" disabled="disabled" title="Invoice Has Been Approved " >Paid</a>';
+            if($invoices->payment_method != 'Cash On Delivery') {
+                return '<a href="" class="btn btn-success btn-xs disabled" disabled="disabled" title="Invoice Has Been Approved " >Paid</a>';
+            }
+            else {
+                return '<a href="" class="btn btn-warning btn-xs disabled" disabled="disabled" title="Invoice is Pending Approval " >Unpaid COD</a>';
+            }
       })
 
     ->addColumn('action', function($invoices) {

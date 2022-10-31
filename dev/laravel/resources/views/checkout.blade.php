@@ -180,13 +180,196 @@
                     </p>
                   </center>
                   <div id="shipping-calculator">
-                    <fieldset>
-                      <br />
-                      <a href="{{ url('/register') }}" class="pull-left btn btn-primary"><i
-                          class="fa fa-chevron-left"></i> {{ __('messages.Register') }}</a>
-                      <a href="{{ url('/login') }}" class="pull-right btn btn-primary"><i
-                          class="fa fa-chevron-right"></i> {{ __('messages.login') }}</a>
+                    <fieldset class="d-flex justify-content-center my-4">
+                      <a href="javascript:void(0)" class="text-center btn btn-primary register-btn mr-2">
+                        {{ __('messages.Register') }}</a>
+                      <a href="javascript:void(0)" class="text-center btn btn-primary login-btn d-none">
+                        {{ __('messages.login') }}
+                      </a>
                     </fieldset>
+                    <form id="login-cart" method="POST" action="{{ route('login') }}" aria-label="{{ __('messages.login') }}">
+                      @csrf
+
+                      @if (count($errors)>0)
+                        <ul class="list-group">
+                          @foreach($errors->all() as $error)
+                            <li class="list-group-item text-danger">
+                              {{$error}}
+                            </li>
+                          @endforeach
+
+                        </ul> <br />
+                      @endif
+
+                      <div class="form-group row">
+                        <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('messages.E-Mail Address') }}</label>
+
+                        <div class="col-md-6">
+                          <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+
+                          @if ($errors->has('email'))
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('messages.Password') }}</label>
+
+                        <div class="col-md-6">
+                          <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+
+                          @if ($errors->has('password'))
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="password" class="col-md-4 col-form-label text-md-right"></label>
+                        <div class="col-md-6">
+                          {!! NoCaptcha::display(['data-theme' => 'dark']) !!}
+                          @if ($errors->has('g-recaptcha-response'))
+                            <span class="invalid-feedback" role="alert">
+                                       <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                   </span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <div class="col-md-6 offset-md-4">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('messages.Remember Me') }}
+                              <input type="hidden" name="cart" value="true">
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row mb-0">
+                        <div class="col-md-8 offset-md-4">
+                          <button type="submit" class="btn btn-primary">
+                            {{ __('messages.login') }}
+                          </button>
+
+                          <a class="btn btn-link text-dark" href="{{ route('password.request') }}">
+                            {{ __('messages.Forgot Your Password?') }}
+                          </a>
+                        </div>
+                      </div>
+                    </form>
+                    <form class="d-none" id="register-cart" method="POST" action="{{ route('register') }}" aria-label="{{ __('messages.Register') }}">
+                      @csrf
+                      @if (count($errors)>0)
+                        <ul class="list-group">
+                          @foreach($errors->all() as $error)
+                            <li class="list-group-item text-danger">
+                              {{$error}}
+                            </li>
+                          @endforeach
+
+                        </ul> <br />
+                      @endif
+                      <input type="hidden" name="cart" value="true">
+                      <div class="form-group row">
+                        <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('messages.Select Country') }}</label>
+                        <div class="col-md-6">
+                          <select id="country_id" name="country_id" class="form-control" value="{{ old('country_id') }}" required autofocus>
+                            @foreach($countries as $country)
+                              <option value="{{$country->id}}">{{$country->name}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('messages.Username') }}</label>
+                        <div class="col-md-6">
+                          <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required >
+                          @if ($errors->has('name'))
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                          @endif
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="contact_name" class="col-md-4 col-form-label text-md-right">{{ __('messages.Full Name') }}</label>
+                        <div class="col-md-6">
+                          <input id="contact_name" type="text" class="form-control" name="contact_name"  required >
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('messages.E-Mail Address') }}</label>
+
+                        <div class="col-md-6">
+                          <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+
+                          @if ($errors->has('email'))
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('messages.Password') }}</label>
+
+                        <div class="col-md-6">
+                          <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+
+                          @if ($errors->has('password'))
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('messages.Confirm Password') }}</label>
+
+                        <div class="col-md-6">
+                          <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="password" class="col-md-4 col-form-label text-md-right"></label>
+
+                        <div class="col-md-6">
+                          {!! NoCaptcha::display(['data-theme' => 'dark']) !!}
+                          @if ($errors->has('g-recaptcha-response'))
+                            <span class="invalid-feedback" role="alert">
+                                       <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                   </span>
+                          @endif
+                        </div>
+                      </div>
+
+
+
+                      <div class="form-group row mb-0">
+                        <div class="col-md-6 offset-md-4">
+                          <button type="submit" class="btn btn-primary">
+                            {{ __('messages.Register') }}
+                          </button>
+                        </div>
+                      </div><hr />
+                      <div class="wd-policy">
+                        <p>
+                          {{ __('messages.By_Continuing_registration') }} <a href="{{route('single_page', ['slug'=>'tos'])}}">{{ __('messages.terms of uses') }}</a> {{ __('messages.and') }} <a href="{{route('single_page', ['slug'=>'policy-privacy'])}}">{{ __('messages.Privacy Policy') }}</a>.
+                        </p>
+                      </div>
+                    </form>
                     <!-- end billing details  -->
                   </div>
                 </div>
@@ -409,7 +592,30 @@
               </div>
             </div>
             @endif
-
+                <?php $cart_total = Cart::total();
+                $cart_total = str_replace(',', '', $cart_total);
+                ?>
+                <div class="col-xs-12 col-md-4 col-lg-4 pull-left">
+                  <div class="text-center">
+                    <form action="{{route('account.gateway.cod')}}" method="POST">
+                      {{csrf_field()}}
+                      <button title="Cash On Delivery" type="submit" class="btn btn-primary">Cash On Delivery</button>
+                      <input type="hidden" name="price" value="{{Cart::total()}}">
+                      <input type="hidden" name="total_supplier_price" value="{{$total_supplier_price}}">
+                      <input type="hidden" name="pro_id"
+                             value="@foreach (Cart::content() as $product){{$product->model->stock}},@endforeach">
+                      {{-- temp --}}
+                      <input type="hidden" name="initial_amount" value="{{Cart::priceTotal()}}">
+                      <input type="hidden" name="coupon_id"
+                             value="{{(Session::exists('coupon_id'))? Session::get('coupon_id'):0}}">
+                      <input type="hidden" name="coupon_code"
+                             value="{{(Session::exists('coupon_code'))? Session::get('coupon_code') :0}}">
+                      <input type="hidden" name="coupon_percentage_off"
+                             value="{{(Session::exists('coupon_percentage_off'))? Session::get('coupon_percentage_off'):0}}">
+                      {{-- temp --}}
+                    </form>
+                  </div>
+                </div>
           </div>
           <hr />
           @endif

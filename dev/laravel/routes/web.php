@@ -852,6 +852,12 @@ Route::post('/account/gateway/stripe', [
     'uses' => 'account\gateway\StripeController@payment',
     'as' => 'account.gateway.stripe'
 ]);
+
+Route::post('/account/gateway/cod', [
+    'uses' => 'account\gateway\CODController@cod_payment',
+    'as' => 'account.gateway.cod'
+]);
+
 Route::post('/account/gateway/voguepay_success', [
     'uses' => 'account\gateway\VoguePayController@success',
     'as' => 'account.gateway.voguepay_success'

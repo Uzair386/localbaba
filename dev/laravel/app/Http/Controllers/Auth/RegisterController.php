@@ -115,6 +115,10 @@ class RegisterController extends Controller
        // $this->guard()->login($user);
        session()->flash('success',__('messages.Thanks for signing up! Please check your email for activation'));
 
+       if(isset($request->cart)) {
+           return redirect()->back();
+       }
+
        return redirect('/login');
        // return $this->registered($request, $user)
        //                 ?: redirect($this->redirectPath());

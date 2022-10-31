@@ -44,7 +44,7 @@
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <h6 class="m-b-25">{{ __('messages.Impressions') }}</h6>
+                                                    <h6 class="m-b-25">Visitors</h6>
                                                     <h3 class="f-w-700 text-c-blue">
                                                         {{$products_impressions}}
                                                     </h3>

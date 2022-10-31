@@ -64,8 +64,14 @@ class InvoicesController extends Controller
     })
     ->addColumn('invoice_status', function($invoices) {
             if($invoices->status==1){
-              return '<a href="#" class="btn btn-success btn-xs" title="'.__('messages.Invoice Has Been Approved').' " >'.__('messages.PAID').'</a>
+                if($invoices->payment_method == 'Cash On Delivery') {
+                    return '<a href="" class="btn btn-warning btn-xs disabled" disabled="disabled" title="Invoice is Pending Approval " >Unpaid COD</a>';
+                }
+                else {
+                    return '<a href="#" class="btn btn-success btn-xs" title="'.__('messages.Invoice Has Been Approved').' " >'.__('messages.PAID').'</a>
               <a href="#" class="btn btn-success btn-xs "  title="'.__('messages.Invoice Has Been Approved').'" >'.$invoices->payment_method.'</a>';
+                }
+
             }elseif($invoices->status==0){
               return '<button class="btn btn-danger btn-xs" title="'.__('messages.UNPAID').'" >'.__('messages.UNPAID').'</button>';
           }

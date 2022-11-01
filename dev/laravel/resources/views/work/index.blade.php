@@ -7,9 +7,6 @@
 
         <div class="card">
             <div class="card-header">
-                <h5>
-                    <font color="red">{{ __('messages.Account') }}</font>
-                </h5>
             </div>
             <div class="row card-block">
                 <div class="col-md-12">
@@ -26,9 +23,9 @@
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <h6 class="m-b-25">{{ __('messages.Products') }}</h6>
+                                                    <h6 class="m-b-25">No. of orders</h6>
                                                     <h3 class="f-w-700 text-c-blue">
-                                                        {{$products_count}}
+                                                        {{$invoices_count}}
                                                     </h3>
                                                 </div>
                                                 <div class="col-auto">
@@ -63,7 +60,7 @@
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <h6 class="m-b-25">{{ __('messages.Items Sold') }}!</h6>
+                                                    <h6 class="m-b-25">Total Sales</h6>
                                                     <h3 class="f-w-700 text-c-blue">
                                                         {{$total_items_bought}}
                                                     </h3>
@@ -82,7 +79,7 @@
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <h6 class="m-b-25">{{ __('messages.Amount') }}!
+                                                    <h6 class="m-b-25">{{ __('messages.Amount') }}
                                                         ({!!$settings->currency->symbol !!})</h6>
                                                     <h3 class="f-w-700 text-c-yellow">
                                                         {{$amount_spent}}
@@ -101,7 +98,7 @@
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <h6 class="m-b-25">{{ __('messages.Users') }}!</h6>
+                                                    <h6 class="m-b-25">Active Users</h6>
                                                     <h3 class="f-w-700 text-c-green">
                                                         {{$users_count}}
                                                     </h3>
@@ -119,7 +116,7 @@
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <h6 class="m-b-25">{{ __('messages.Inactive Users') }}!</h6>
+                                                    <h6 class="m-b-25">Inactive Users</h6>
                                                     <h3 class="f-w-700 text-c-red">
                                                         {{$inactive_users}}
                                                     </h3>

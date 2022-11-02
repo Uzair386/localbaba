@@ -7,7 +7,7 @@
     <div class="card-header">
         <h1>Products</h1>
     </div>
-    <div class="icon-and-text-button-demo">
+    <div class="icon-and-text-button-demo d-flex justify-content-center align-items-center">
         <a href="{{ route('work.product.create') }}">
             <button type="button" class="btn btn-primary waves-effect">
                 <i class="fa fa-plus-circle"></i>
@@ -35,13 +35,36 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="container">
             <div class="card"><br />
-                <div class="col-md-12">
+                <div class="col-md-12 d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-start">
+                        <select class="form-control filter-status" id="status-filter" style="font-size: inherit">
+                            <option @if(request()->get('status') == null) selected @endif data-url="{{url('/work/products')}}?order={{request()->get('order')}}&vendor={{request()->get('vendor')}}&status=">Status</option>
+                            <option @if(request()->get('status') == 'active') selected @endif data-url="{{url('/work/products')}}?order={{request()->get('order')}}&status=active&vendor={{request()->get('vendor')}}">Active</option>
+                            <option @if(request()->get('status') == 'draft') selected @endif data-url="{{url('/work/products')}}?order={{request()->get('order')}}&status=draft&vendor={{request()->get('vendor')}}">Draft</option>
+                        </select>
+                        <select class="ml-2 form-control filter-status" id="status-filter" style="font-size: inherit">
+                            <option @if(request()->get('vendor') == null) selected @endif data-url="{{url('/work/products')}}?order={{request()->get('order')}}&status={{request()->get('status')}}&vendor=">Vendor</option>
+                            @foreach($suppliers as $supplier)
+                                <option @if(request()->get('vendor') == $supplier->id) selected @endif data-url="{{url('/work/products')}}?order={{request()->get('order')}}&status={{request()->get('status')}}&vendor={{$supplier->id}}">{{$supplier->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <form class="example" action="" style="margin:auto;max-width:300px">
                         <input type="text" placeholder="Search.." name="query">
                         <button type="submit"><i class="fa fa-search"></i></button>
                     </form>
+                    <div>
+                        <select class="form-control cart66-select" id="sel1"  name="product_id" style="font-size: inherit">
+                            <option @if(request()->get('order') == null) selected @endif data-url="{{url('/work/products')}}&status={{request()->get('status')}}&vendor={{request()->get('vendor')}}">Sort by</option>
+                            <option @if(request()->get('order') == 'name') selected @endif data-url="{{url('/work/products')}}?order=name&status={{request()->get('status')}}&vendor={{request()->get('vendor')}}">Product Title</option>
+                            <option @if(request()->get('order') == 'stock_h') selected @endif data-url="{{url('/work/products')}}?order=stock_h&status={{request()->get('status')}}&vendor={{request()->get('vendor')}}">Highest Inventory</option>
+                            <option @if(request()->get('order') == 'stock_l') selected @endif data-url="{{url('/work/products')}}?order=stock_l&status={{request()->get('status')}}&vendor={{request()->get('vendor')}}">Lowest Inventory</option>
+                            <option @if(request()->get('order') == 'price_h') selected @endif data-url="{{url('/work/products')}}?order=price_h&status={{request()->get('status')}}&vendor={{request()->get('vendor')}}">Highest Price</option>
+                            <option @if(request()->get('order') == 'price_l') selected @endif data-url="{{url('/work/products')}}?order=price_l&status={{request()->get('status')}}&vendor={{request()->get('vendor')}}">Lowest Price</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 mt-4">
                     <div class="col-md-9">
                         <h6 class="result"><b>Query:</b> {{$query}}</h6>
                     </div>
@@ -57,8 +80,9 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Price</th>
-                                <th>Supplier</th>
+                                <th>Vendor</th>
                                 <th>Category</th>
+                                <th>Status</th>
                                 <th>Views</th>
                                 <th>Cart+</th>
                                 <th>Stock</th>
@@ -85,6 +109,7 @@
                                 <td>{!!$settings->currency->symbol!!}{{number_format($product->price,2)}}</td>
                                 <td>{!!$product->supplier->name!!}</td>
                                 <td><b>{!!$product->category->name!!}</b></td>
+                                <td>{{$product->active == 1 ? 'Active' : 'Draft'}}</td>
                                 <td>{{$product->views_count}}</td>
                                 <td>{{$product->cart_count}}</td>
                                 <td>{{$product->stock}}</td>
@@ -168,4 +193,12 @@
         display: table;
     }
 </style>
+<script>
+    $('.cart66-select').on('change', function () {
+        window.location.href = $(this).children("option:selected").data('url')
+    });
+    $('.filter-status').on('change', function () {
+        window.location.href = $(this).children("option:selected").data('url')
+    });
+</script>
 @endsection

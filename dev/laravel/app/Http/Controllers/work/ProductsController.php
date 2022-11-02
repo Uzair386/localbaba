@@ -30,22 +30,48 @@ class ProductsController extends Controller
     {
       $query = request()->get('query');
       $settings =Setting::first();
+      $products = Product::where('parent_id', '=', 0);
+      $status = request()->get('status');
+      $statuses  = [
+          'active' => ['active',1],
+          'draft' => ['active',0],
+      ];
+      if(isset($status) && array_key_exists($status,$statuses)) {
+          $products = $products->where($statuses[$status][0], $statuses[$status][1]);
+      }
+      $vendor = request()->get('vendor');
+      if(isset($vendor) && Supplier::find($vendor) != null) {
+          $products = $products->where('supplier_id',$vendor);
+      }
       if (!empty($query)) {
-        $products = Product::where('parent_id', '=', 0);
         $products = $products->where('name','like',  '%' . $query . '%')
                             ->orwhere('price','like',  '%' . $query . '%')
                             ->orwhere('views_count','like',  '%' . $query . '%')
-                            ->orwhere('stock','like',  '%' . $query . '%')
-                            ->paginate(10);
-      }else{
-        $products = Product::where('parent_id', '=', 0)->orderBy('id', 'desc')->paginate(10);
+                            ->orwhere('stock','like',  '%' . $query . '%');
       }
+      $order = request()->get('order');
+      $orders  = [
+          'name' => ['name','asc'],
+          'stock_h' => ['stock','desc'],
+          'stock_l' => ['stock','asc'],
+          'price_h' => ['price','desc'],
+          'price_l' => ['price','asc'],
+      ];
+      if(isset($order) && array_key_exists($order,$orders)) {
+          $products = $products->orderBy($orders[$order][0], $orders[$order][1]);
+      }
+      else {
+          $products = $products->orderBy('id', 'desc');
+      }
+
+      $products = $products->paginate(10);
 
       // dd($products);
       return view('work.product.index')
       ->with('query',$query)
       ->with('products',$products)
-      ->with('settings',$settings);
+      ->with('settings',$settings)
+      ->with('suppliers',Supplier::all());
     }
 
     /**

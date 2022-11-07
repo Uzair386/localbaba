@@ -109,41 +109,59 @@
                     </p>
                   </center>
                   <div class="form-group">
+                    <strong><label class="control-label" for="name">{{ __('messages.Name') }} :<span
+                                class="required">*</span> </label></strong>
+                    <div class="info">
+                      <input type="text" name="name" id="name" readonly="" class="form-control"
+                             title="Customer Name" required="required" size="35" placeholder="Customer Name"
+                             value="{{\Illuminate\Support\Facades\Session::get('customer_details')['name']}}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <strong><label class="control-label" for="email">{{ __('messages.Email') }} :<span
+                                class="required">*</span> </label></strong>
+                    <div class="info">
+                      <input type="text" name="email" id="email" readonly="" class="form-control"
+                             title="Email Address" required="required" size="35" placeholder="Email Address"
+                             value="{{\Illuminate\Support\Facades\Session::get('customer_details')['email']}}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <strong><label class="control-label" for="mobile">{{ __('messages.Phone') }} :<span
+                                class="required">*</span> </label></strong>
+                    <div class="info">
+                      <input type="text" name="phone_number" id="mobile" readonly="" class="form-control"
+                             title="Mobile No" required="required" size="35" placeholder="Phone Number"
+                             value="{{\Illuminate\Support\Facades\Session::get('customer_details')['phone_number']}}">
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <strong><label class="control-label" for="country_id">{{ __('messages.Country') }} :<span
                           class="required">*</span></strong>
                     </label>
                     <div class="info">
                       <input type="text" name="country" readonly="" required="required" id="country"
                         class="form-control" title="Country" size="35" placeholder="Please Select your Country"
-                        value="{{Auth::user()->country->name}}">
+                        value="{{\Illuminate\Support\Facades\Session::get('customer_details')['country']}}">
                     </div>
                   </div>
                   <div class="form-group">
                     <strong><label class="control-label" for="address">{{ __('messages.Address') }} :<span
                           class="required">*</span></strong>
                     </label>
-                    <hr />
-                    <div class="addy">
-                      {!!Auth::user()->address!!}
+                    <div class="addy mb-4">
+                      {!!\Illuminate\Support\Facades\Session::get('customer_details')['address']!!}
                     </div>
                   </div>
 
-                  <div class="form-group">
-                    <strong><label class="control-label" for="mobile">{{ __('messages.Phone') }} :<span
-                          class="required">*</span> </label></strong>
-                    <div class="info">
-                      <input type="text" name="phone_number" id="mobile" readonly="" class="form-control"
-                        title="Mobile No" required="required" size="35" placeholder="Phone Number"
-                        value="{{Auth::user()->phone_number}}">
-                    </div>
-                  </div>
+
                   <div class="form-group">
                     <strong><label class="control-label" for="state">{{ __('messages.State') }} :<span
                           class="required">*</span></strong>
                     </label>
                     <div class="info">
                       <input type="text" name="state" readonly="" required="required" id="state" class="form-control"
-                        title="" size="35" placeholder="Enter State" value="{!!Auth::user()->state!!}">
+                        title="" size="35" placeholder="Enter State" value="{{\Illuminate\Support\Facades\Session::get('customer_details')['state']}}">
                     </div>
                   </div>
                   <div class="form-group">
@@ -152,7 +170,7 @@
                     </label>
                     <div class="info">
                       <input type="text" name="city" readonly="" required="required" id="city" class="form-control"
-                        title="" size="35" placeholder="Enter City" value="{!!Auth::user()->city!!}">
+                        title="" size="35" placeholder="Enter City" value="{{\Illuminate\Support\Facades\Session::get('customer_details')['city']}}">
                     </div>
                   </div>
                   <div class="form-group">
@@ -162,11 +180,11 @@
                     <div class="info">
                       <input type="text" name="postal_code" readonly="" required="required" id="postal_code"
                         class="form-control" title="Please Type your Postal Code" size="35"
-                        placeholder="Enter Postal Code" value="{{Auth::user()->postal_code}}">
+                        placeholder="Enter Postal Code" value="{{\Illuminate\Support\Facades\Session::get('customer_details')['postal_code']}}">
                     </div>
                   </div>
 
-                  <center><a href="{{route('account.user.edit')}}"><button type="submit" class="btn btn-info"><i
+                  <center><a href="{{route('cart')}}"><button type="submit" class="btn btn-info"><i
                           class="fa fa-pencil-square-o"
                           aria-hidden="true"></i>{{ __('messages.Edit Address') }}</button></a></center>
                 </div>

@@ -8,7 +8,7 @@
                 <table>
                     <tr>
                         <th>
-                            <h1 class="text-center">{{__('messages.Invoice Approved')}}!</h1>
+                            <h1 class="text-center">Order Approved!</h1>
                         </th>
                         <th class="expander"></th>
                     </tr>
@@ -43,7 +43,7 @@
                     <tr>
                         <th>
                             <h1>{{__('messages.Hello')}}, {{$contact_name}}</h1>
-                            <p>{{__('messages.Your Invoice Has Been Approved')}}.</p>
+                            <p>{{__('Your order Has Been Approved')}}.</p>
                             <center><u><b>{{__('messages.Details')}}</b></u></center>
                             <p><b>{{__('messages.Username')}}:</b> {{$name}}</p>
                             <p><b>{{__('messages.Date')}}:</b> {{$time}}</p>

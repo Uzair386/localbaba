@@ -11,7 +11,7 @@ use App\Child_Invoice;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
-function gateway_payment($settings, $user, $total_supplier_price, $cart, $payment_gateway)
+function gateway_payment($settings, $user, $total_supplier_price, $cart, $payment_gateway, $status=1)
 {
     //Generate Invoice Number
     //count invoices to get last row
@@ -38,15 +38,17 @@ function gateway_payment($settings, $user, $total_supplier_price, $cart, $paymen
         'user_id' => $user->id,
         'invoice_number' => $invoice_number,
         'payment_method' => $payment_gateway,
-        'status' => 1,
+        'status' => $status,
         'tax' => $settings->tax,
         'currency_symbol' => $settings->currency->symbol,
+        //
         'country' => $user->country->name,
         'address' => $user->address,
         'state' => $user->state,
         'city' => $user->city,
         'phone' => $user->phone_number,
         'postal_code' => $user->postal_code,
+        //
         'total_products' => $total_products,
         'total_items' => $total_items,
         'total_amount_without_tax' => $total_amount_without_tax,
@@ -86,7 +88,7 @@ function gateway_payment($settings, $user, $total_supplier_price, $cart, $paymen
             'supplier_id'                => $product->model->supplier_id,
             'user_id'                    => $user->id,
             'invoice_number'             => $invoice_number,
-            'status'                     => 1,
+            'status'                     => $status,
             'currency_symbol'            => $settings->currency->symbol,
             'tracking_code'              => '',
             'amount_gain'                => $amount_gain,
@@ -131,7 +133,7 @@ function gateway_payment($settings, $user, $total_supplier_price, $cart, $paymen
         'name' => $user->name,
         'contact_name' => $user->contact_name,
         'email' => $user->email,
-        'subject' => __('messages.Product Invoice Approved')." $payment_gateway",
+        'subject' => 'Order Approved '." $payment_gateway",
         'amount' => $total_amount_with_tax,
         'currency' => $settings->currency->symbol,
         'time' => date('Y-m-d H:i:s'),
@@ -151,7 +153,7 @@ function gateway_payment($settings, $user, $total_supplier_price, $cart, $paymen
         // $message->reply_to();
         // $message->cc();
     });
-    Session::flash('info',  __('messages.Prepping Product(s) for Shipment'));
+    Session::flash('info',  __('Prepping Product(s) for Shipment'));
     // Session::flash('success', 'Thank You!. Payment was successful.');
-    alert()->success('Success', __('messages.Thank You!. Payment was Successful.'))->showCloseButton()->autoClose(15000);
+    alert()->success('Success', __('Thank You!. Order was Successful.'))->showCloseButton()->autoClose(15000);
 }

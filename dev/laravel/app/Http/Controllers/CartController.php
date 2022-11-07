@@ -127,8 +127,11 @@ class CartController extends Controller
     Session::flash('success',__('messages.Success: Emptied'));
     return redirect()->back();
   }
-  public function checkout()
+  public function checkout(Request $request)
   {
+    session()->put('customer_details', $request->all());
+    //dd(session()->get('customer_details'));
+    //dd($request->all());
     $settings = Setting::first();
     $gateway = Gateway::first();
     if(count(Cart::content())==0){

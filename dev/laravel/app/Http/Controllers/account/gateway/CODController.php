@@ -55,7 +55,7 @@ class CODController extends Controller
         $settings = Setting::first();
         $cart = Cart::instance('default');
         $payment_gateway = "Cash On Delivery";
-        gateway_payment($settings, $user, $total_supplier_price, $cart, $payment_gateway);
+        gateway_payment($settings, $user, $total_supplier_price, $cart, $payment_gateway,0);
         return redirect()->route('account.invoices');
     }
 

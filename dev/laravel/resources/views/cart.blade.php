@@ -19,7 +19,7 @@
           </div>
           @endif
           <div class="card-body">
-            <!-- <form method="POST" action="" > -->
+            <form method="get" action="{{route('cart.checkout')}}">
             @csrf
 
             <table id="cart" class="table table-hover table-condensed">
@@ -180,6 +180,33 @@
                     </p>
                   </center>
                   <div class="form-group">
+                    <strong><label class="control-label" for="name">{{ __('messages.Name') }} :<span
+                                class="required">*</span> </label></strong>
+                    <div class="info">
+                      <input type="text" name="name" id="name" class="form-control"
+                             title="Customer Name" required="required" size="35" placeholder="Customer Name"
+                             value="{{Auth::user()->name}}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <strong><label class="control-label" for="mobile">{{ __('messages.Phone') }} :<span
+                                class="required">*</span> </label></strong>
+                    <div class="info">
+                      <input type="text" name="phone_number" id="mobile" class="form-control"
+                             title="Mobile No" required="required" size="35" placeholder="Phone Number"
+                             value="{{Auth::user()->phone_number}}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <strong><label class="control-label" for="email">{{ __('messages.Email') }} :<span
+                                class="required">*</span> </label></strong>
+                    <div class="info">
+                      <input type="text" name="email" id="email" class="form-control"
+                             title="Email Address" required="required" size="35" placeholder="Email Address"
+                             value="{{Auth::user()->email}}">
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <strong><label class="control-label" for="country_id">{{ __('messages.Country') }} :<span
                           class="required">*</span></strong>
                     </label>
@@ -193,21 +220,12 @@
                     <strong><label class="control-label" for="address">{{ __('messages.Address') }} :<span
                           class="required">*</span></strong>
                     </label>
-                    <hr />
                     <div class="addy">
                       <textarea name="address" id="" class="form-control" cols="2" rows="2">{!!Auth::user()->address!!}</textarea>
                     </div>
                   </div>
 
-                  <div class="form-group">
-                    <strong><label class="control-label" for="mobile">{{ __('messages.Phone') }} :<span
-                          class="required">*</span> </label></strong>
-                    <div class="info">
-                      <input type="text" name="phone_number" id="mobile" class="form-control"
-                        title="Mobile No" required="required" size="35" placeholder="Phone Number"
-                        value="{{Auth::user()->phone_number}}">
-                    </div>
-                  </div>
+
                   <div class="form-group">
                     <strong><label class="control-label" for="state">{{ __('messages.State') }} :<span
                           class="required">*</span></strong>
@@ -236,10 +254,10 @@
                         placeholder="Enter Postal Code" value="{{Auth::user()->postal_code}}">
                     </div>
                   </div>
-
+                  <!--
                   <center><a href="{{route('account.user.edit')}}"><button type="submit" class="btn btn-info"><i
                           class="fa fa-pencil-square-o"
-                          aria-hidden="true"></i>{{ __('messages.Edit Address') }}</button></a></center>
+                          aria-hidden="true"></i>{{ __('messages.Edit Address') }}</button></a></center>-->
                 </div>
                 @else
                 <div class="col-sm-6">
@@ -550,7 +568,7 @@
 
 
 
-            <!-- </form> -->
+             </form>
           </div>
         </div>
       </div>

@@ -31,9 +31,9 @@ function gateway_payment($settings, $user, $total_supplier_price, $cart, $paymen
     $coupon_percentage_off = (session()->exists('coupon_percentage_off')) ? session()->get('coupon_percentage_off') : 0;
 
     // dump($coupon_code);
-
+    $customer = session()->get('customer_details');
     // Create Invoice
-      $invoice = Invoice::create([
+    $invoice = Invoice::create([
         'amount' => $total_amount_with_tax,
         'user_id' => $user->id,
         'invoice_number' => $invoice_number,
@@ -42,12 +42,14 @@ function gateway_payment($settings, $user, $total_supplier_price, $cart, $paymen
         'tax' => $settings->tax,
         'currency_symbol' => $settings->currency->symbol,
         //
-        'country' => $user->country->name,
-        'address' => $user->address,
-        'state' => $user->state,
-        'city' => $user->city,
-        'phone' => $user->phone_number,
-        'postal_code' => $user->postal_code,
+        'country' => $customer['country'],
+        'address' => $customer['address'],
+        'state' => $customer['state'],
+        'city' => $customer['city'],
+        'phone' => $customer['phone_number'],
+        'postal_code' => $customer['postal_code'],
+        'name' => $customer['name'],
+        'email' => $customer['email'],
         //
         'total_products' => $total_products,
         'total_items' => $total_items,
@@ -129,6 +131,7 @@ function gateway_payment($settings, $user, $total_supplier_price, $cart, $paymen
     // dd('<->');
 
     //Email here
+    Session::forget('customer_details');
     $data = array(
         'name' => $user->name,
         'contact_name' => $user->contact_name,

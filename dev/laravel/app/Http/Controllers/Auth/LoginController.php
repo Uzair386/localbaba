@@ -48,11 +48,12 @@ class LoginController extends Controller
     }
     public function authenticated(Request $request, $user)
   {
+      /*
       if ($user->active==0) {
           auth()->logout();
           session()->flash('error', __('messages.You need to confirm your account. We already sent you an activation code, please check your email') );
           return redirect('/login');
-      }
+      }*/
       Auth::guard('admin')->logout();
       if(isset($request->cart)) {
           session()->flash('success',__('Logged in as: '.$user->name.' successfully.'));

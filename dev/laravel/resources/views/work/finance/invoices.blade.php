@@ -10,13 +10,24 @@
     <div class="card-header">
         <h5>&nbsp;Orders</h5>
     </div>
-    <div class="icon-and-text-button-demo">
-
+    <div class="icon-and-text-button-demo d-flex justify-content-between">
+        <div class="pl-3">
+            <select class="form-control filter" id="filter" style="font-size: inherit">
+                <option @if(request()->get('filter') == null) selected @endif data-url="{{url('/work/finance/invoices')}}">Filter</option>
+                <option @if(request()->get('filter') == 'paid') selected @endif data-url="{{url('/work/finance/invoices')}}?filter=paid">Paid</option>
+                <option @if(request()->get('filter') == 'unpaid') selected @endif data-url="{{url('/work/finance/invoices')}}?filter=unpaid">Unpaid</option>
+                <option @if(request()->get('filter') == 'cancelled') selected @endif data-url="{{url('/work/finance/invoices')}}?filter=cancelled">Cancelled</option>
+                <option @if(request()->get('filter') == 'fulfilled') selected @endif data-url="{{url('/work/finance/invoices')}}?filter=fulfilled">Fulfilled</option>
+                <option @if(request()->get('filter') == 'unfulfilled') selected @endif data-url="{{url('/work/finance/invoices')}}?filter=unfulfilled">Un Fulfilled</option>
+                <option @if(request()->get('filter') == 'partially_fulfilled') selected @endif data-url="{{url('/work/finance/invoices')}}?filter=partially_fulfilled">Partially Fulfilled</option>
+            </select>
+        </div>
         <a href="">
             <button type="button" class="btn btn-warning waves-effect">
                 <i class="fa fa-refresh"></i><span>Refresh</span>
             </button>
         </a>
+        <div></div>
 
     </div>
     <div class="card-block">
@@ -30,10 +41,15 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Customer</th>
-                                    <th>Number</th>
+                                    <th>User</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer Email</th>
+                                    <th>Customer Phone</th>
+                                    <!--<th>Invoice #</th>-->
                                     <th>Amount</th>
-                                    <th>Stats</th>
+                                    <th>Fulfillment Status</th>
+                                    <th>Tracking Code</th>
+                                    <th>Payment Status</th>
                                     <th>Date</th>
                                     <th>More</th>
                                 </tr>
@@ -71,24 +87,31 @@ $(document).ready(function() {
                     {          
                     "processing": "<i class='fa fa-spinner fa-pulse fa-3x fa-fw'></i>",
                     },
-        "ajax": "{{ route('work.get_invoice_data') }}",
+        "ajax": "{{ route('work.get_invoice_data',[request()->get('filter')]) }}",
         "columns":[
             { "data": "id" },
             { "data": "invoice_customer" },
-            { "data": "invoice_number" },
+            { "data": "customer_name" },
+            { "data": "customer_email" },
+            { "data": "customer_phone" },
+            //{ "data": "invoice_number" },
             { "data": "invoice_amount" },
+            { "data": "fulfillment_status" },
+            { "data": "tracking_code" },
             { "data": "invoice_status" },
             { "data": "invoice_date"},
             { "data": "action","searchable":false,"orderable":false}
         ],
         order:[ [0, 'desc'] ],
-        "dom": 'Bfrtip',
-        "buttons": ['pageLength','copy', 'csv', 'excel', 'pdf', 'print']
+        //"dom": 'Bfrtip',
+        //"buttons": ['pageLength','copy', 'csv', 'excel', 'pdf', 'print']
 
         });
 });
+    $('.filter').on('change', function () {
+        window.location.href = $(this).children("option:selected").data('url')
+    });
 </script>
-
 
 
 <hr />

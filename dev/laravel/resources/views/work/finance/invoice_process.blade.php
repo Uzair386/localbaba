@@ -31,17 +31,13 @@
                                 height="50" align="left">
                         </div>
                         <div class="col-md-6 col-lg-6">
-                            @if ($invoice->status == 1)
-                            <h4>
-                                @if($invoice->payment_method != 'Cash On Delivery')
-                                <font color="779500" class="pull-right" align="right">{{ __('messages.PAID') }}</font>
-                                @else
-                                    <font color="779500" class="pull-right" align="right">Cash On Delivery</font>
-                                @endif
-                            </h4>
-                            @elseif($invoice->status==0 && $invoice->validity > \Carbon\Carbon::now())
+                            @if ($invoice->status == 0)
                             <h4>
                                 <font color="B20B0B" class="pull-right" align="right">{{ __('messages.UNPAID') }}</font>
+                            </h4>
+                            @else
+                            <h4>
+                                <font color="779500" class="pull-right" align="right">{{ __('messages.PAID') }}</font>
                             </h4>
                             @endif
 
@@ -61,10 +57,10 @@
                                             <h5>{{ __('messages.Billing Details') }}</h5>
                                         </div>
                                         <div class="card-block">
-                                            <strong>{{ __('messages.Username') }}:</strong> {{$invoice_user->name}}<br>
-                                            <strong>{{ __('messages.Contact') }}:</strong>
-                                            {{$invoice_user->contact_name}}<br>
-                                            <strong>{{ __('messages.Mail') }}:</strong> {{$invoice_user->email}}<br>
+                                            <strong>{{ __('User Id') }}:</strong> {{$invoice_user->id}}<br>
+                                            <strong>{{ __('messages.Username') }}:</strong> {{$invoice_user->contact_name}}<br>
+                                            <strong>{{ __('Customer Name') }}:</strong> {{$invoice->name}}<br>
+                                            <strong>{{ __('messages.Email') }}:</strong> {{$invoice->email}}<br>
                                             <strong>{{ __('messages.Phone') }}:</strong> {{$invoice->phone}}<br>
                                         </div>
                                     </div>
@@ -93,7 +89,7 @@
                                             <strong>{{ __('messages.Payment Status') }}:</strong>
                                             @if ($invoice->status == 1)
                                             <font color="green">{{ __('messages.PAID') }}</font>
-                                            @elseif($invoice->status==0 && $invoice->validity > \Carbon\Carbon::now())
+                                            @else
                                             <font color="red">{{ __('messages.UNPAID') }}</font>
                                             @endif<br>
                                             <strong>{{ __('messages.Method') }}:</strong>
@@ -131,7 +127,7 @@
                                             <tbody>
                                                 @foreach($sub_invs as $sub_invoice)
                                                 <tr>
-                                                    <td>{{$sub_invoice->product_name}}</td>
+                                                    <td style="white-space: pre-wrap !important;">{{$sub_invoice->product_name}}</td>
                                                     <td>{{$sub_invoice->supplier}}</td>
                                                     <td class="text-center">
                                                         <p>{!!$settings->currency->symbol!!}{{number_format(($sub_invoice->price_without_tax/$sub_invoice->product_quantity),2)}}

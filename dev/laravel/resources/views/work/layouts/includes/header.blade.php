@@ -268,7 +268,7 @@
                                         <ul class="pcoded-submenu">
                                             <li class="">
                                                 <a href="{{ route('work.invoices') }}" class="waves-effect waves-dark">
-                                                    <span><i class="fa fa-list-ol" aria-hidden="true"></i> {{ __('messages.Invoices') }}</span>
+                                                    <span><i class="fa fa-list-ol" aria-hidden="true"></i> Orders</span>
                                                 </a>
                                             </li>
                                             <li class="">

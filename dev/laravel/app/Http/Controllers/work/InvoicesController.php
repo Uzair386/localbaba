@@ -32,17 +32,22 @@ class InvoicesController extends Controller
       return view('work.finance.invoices');
     }
     ////////Get DT //////////////////////////////////
-    public function get_invoice_data(){
+    public function get_invoice_data($filter = null){
+        $filters  = [
+            'paid' => ['status',1],
+            'unpaid' => ['status',0],
+            'cancelled' => ['status',2],
+            'fulfilled' => ['fulfillment_status','Fulfilled'],
+            'unfulfilled' => ['fulfillment_status','Un Fulfilled'],
+            'partially_fulfilled' => ['fulfillment_status','Partially Fulfilled'],
+        ];
+         if(array_key_exists($filter,$filters)) {
+             $invoices = Invoice::all()->where($filters[$filter][0],'==',$filters[$filter][1])->all();
+         }
+         else {
+             $invoices = Invoice::all();
+         }
 
-  $invoices = Invoice::select([
-                        'id',
-                        'user_id',
-                        'invoice_number',
-                        'payment_method',
-                        'total_amount_with_tax',
-                        'status',
-                        'created_at',
-                        ])->get();
 
 
 
@@ -50,6 +55,21 @@ class InvoicesController extends Controller
     ->addColumn('invoice_customer', function($invoices) {
     $user = Invoice::find($invoices->id)->user;
       return "$user->name";
+    })
+    ->addColumn('customer_name', function($invoices) {
+        return "$invoices->name";
+    })
+    ->addColumn('customer_email', function($invoices) {
+        return "$invoices->email";
+    })
+    ->addColumn('customer_phone', function($invoices) {
+        return "$invoices->phone";
+    })
+    ->addColumn('fulfillment_status', function($invoices) {
+        return "$invoices->fulfillment_status";
+    })
+    ->addColumn('tracking_code', function($invoices) {
+        return "$invoices->tracking_code";
     })
     ->addColumn('invoice_number', function($invoices) {
       return "<b>$invoices->invoice_number</b>";

@@ -551,7 +551,7 @@ Route::post('/work/variation/update/{id}', [
 ////////// End Add Product   ////////
 
 ////////// Invoices   //////////
-Route::get('/work/get_invoice_data', [
+Route::get('/work/get_invoice_data/{filter?}', [
     'uses' => 'work\InvoicesController@get_invoice_data',
     'as' => 'work.get_invoice_data'
 ]);

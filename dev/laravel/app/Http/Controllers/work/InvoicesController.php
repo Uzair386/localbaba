@@ -349,19 +349,26 @@ class InvoicesController extends Controller
    //      Session::flash('success','Success: Approved');
    //      return redirect()->back();
    //  }
-   public function income()
+   public function income(Request $request)
    {
+       if($request->user_id == null) {
+           $invoice_calc              = Invoice::all();
+       }
+       else {
+           $user = User::findOrFail($request->user_id);
+           $invoice_calc              = Invoice::where('user_id',$user->id)->get();
+       }
      //calc Totals
-     $invoice_calc              = Invoice::all();
+
      // $invoices_count         = $user->invoice->count();
      $amount_initial            = collect($invoice_calc)->sum('initial_amount');
      $amount_coupon             = collect($invoice_calc)->sum('coupon_amount');
-     $amount_supplier           = collect($invoice_calc)->sum('supplier_amount');
+     $amount_supplier           = collect($invoice_calc)->sum('products_supplier_amount');
 
      $amount_with_tax           = collect($invoice_calc)->sum('total_amount_with_tax');
      $amount_without_tax        = collect($invoice_calc)->sum('total_amount_without_tax');
      $amount_tax                = collect($invoice_calc)->sum('tax_amount');
-     $amount_profit             = collect($invoice_calc)->sum('amount_gain');
+     $amount_profit             = collect($invoice_calc)->sum('amount_gain') - $amount_supplier;
      //calc Totals
     //  dd(
     //   "Initial Amount: ".$amount_initial_amount,
@@ -375,15 +382,33 @@ class InvoicesController extends Controller
      //search
      $query = request()->get('query');
      $settings =Setting::first();
+
      if (!empty($query)) {
-       $invoices = Invoice::where('invoice_number','like',  '%' . $query . '%')
-                           ->orwhere('total_amount_with_tax','like',  '%' . $query . '%')
-                           ->orwhere('total_amount_without_tax','like',  '%' . $query . '%')
-                           ->orwhere('tax_amount','like',  '%' . $query . '%')
-                           ->orwhere('amount_gain','like',  '%' . $query . '%')
-                           ->paginate(10);
+         if($request->user_id == null) {
+             $invoices = Invoice::where('invoice_number','like',  '%' . $query . '%')
+                 ->orwhere('total_amount_with_tax','like',  '%' . $query . '%')
+                 ->orwhere('total_amount_without_tax','like',  '%' . $query . '%')
+                 ->orwhere('tax_amount','like',  '%' . $query . '%')
+                 ->orwhere('amount_gain','like',  '%' . $query . '%')
+                 ->paginate(10);
+         }
+         else {
+             $invoices = Invoice::where('user_id',$user->id)->where('invoice_number','like',  '%' . $query . '%')
+                 ->orwhere('total_amount_with_tax','like',  '%' . $query . '%')
+                 ->orwhere('total_amount_without_tax','like',  '%' . $query . '%')
+                 ->orwhere('tax_amount','like',  '%' . $query . '%')
+                 ->orwhere('amount_gain','like',  '%' . $query . '%')
+                 ->paginate(10);
+         }
+
      }else{
-       $invoices = Invoice::orderBy('id', 'desc')->paginate(10);
+         if($request->user_id == null) {
+             $invoices = Invoice::orderBy('id', 'desc')->paginate(10);
+         }
+         else {
+             $invoices = Invoice::where('user_id',$user->id)->orderBy('id', 'desc')->paginate(10);
+         }
+
      }
 
      // dd($invoices);
@@ -397,7 +422,9 @@ class InvoicesController extends Controller
      ->with('amount_supplier',$amount_supplier) 
      ->with('query',$query)
      ->with('invoices',$invoices)
-     ->with('settings',$settings);
+     ->with('settings',$settings)
+     ->with('users',User::all())
+     ->with('user',isset($user) ? $user : null);
    }
    public function sub_csv($id)
    {

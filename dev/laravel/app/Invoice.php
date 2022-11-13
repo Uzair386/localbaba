@@ -35,7 +35,7 @@ class Invoice extends Model
     'coupon_amount',
     'coupon_percentage_off',
   ];
-  protected $appends = ['fulfillment_status','tracking_code'];
+  protected $appends = ['fulfillment_status','tracking_code', 'products_supplier_amount'];
   protected function str_putcsv($input, $delimiter = ',', $enclosure = '"')
     {
         // Open a memory "file" for read/write...
@@ -73,6 +73,11 @@ class Invoice extends Model
       }
   }
 
+  public function getProductsSupplierAmountAttribute() {
+      $items = $this->child()->get();
+      //dd($items);
+      return $items->sum('supplier_price');
+  }
   public function  getTrackingCodeAttribute() {
       $items = $this->child()->get();
       //return $items;

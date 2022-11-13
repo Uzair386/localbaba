@@ -4,57 +4,38 @@
 @section('content')
 
 @include('work.layouts.includes.datatables')
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <div class="card">
-  <h2 class="class-center"> <i class="fa fa-money"></i> Income Totals</h2>
-  <div class="col-sm-12">
-    <div class="row clearfix">
-      <div class="col-md-2">
-        <fieldset>
-          <legend class="text-center">Supplier</legend>
-          <p class="text-center">{!!$settings->currency->symbol!!} {{number_format($amount_supplier,2)}}</p>
-        </fieldset>
-      </div>
-      <div class="col-md-1">
-        <fieldset>
-          <legend class="text-center">Cart</legend>
-          <p class="text-center">{!!$settings->currency->symbol!!} {{number_format($amount_initial,2)}}</p>
-        </fieldset>
-      </div>
-      <div class="col-md-2">
-        <fieldset>
-          <legend class="text-center">(-)Coupons</legend>
-          <p class="text-center">{!!$settings->currency->symbol!!} {{number_format($amount_coupon,2)}}</p>
-        </fieldset>
-      </div>
-      <div class="col-md-2">
-        <fieldset>
-          <legend class="text-center">BeforeTAX</legend>
-          <p class="text-center">{!!$settings->currency->symbol!!} {{number_format($amount_without_tax,2)}}</p>
-        </fieldset>
-      </div>
-      <div class="col-md-1">
-        <fieldset>
-          <legend class="text-center">(+)Tax</legend>
-          <p class="text-center">{!!$settings->currency->symbol!!} {{number_format($amount_tax,2)}}</p>
-        </fieldset>
-      </div>
-      <div class="col-md-2">
-        <fieldset>
-          <legend class="text-center">AfterTAX</legend>
-          <p class="text-center">{!!$settings->currency->symbol!!} {{number_format($amount_with_tax,2)}}</p>
-        </fieldset>
-      </div>
-      <div class="col-md-2">
-        <fieldset>
-          <legend class="text-center">Profit(Supplier - BeforeTAX)</legend>
-          <p class="text-center">{!!$settings->currency->symbol!!} {{number_format($amount_profit,2)}}</p>
-        </fieldset>
-      </div>
-
-    </div>
+  <h2 class="text-center my-4"> <i class="fa fa-money"></i> Income Totals @if(request()->get('user_id') != null) For user: {{$user->name }}@endif</h2>
+  <!-- Invome Table -->
+  <div class="body table-responsive">
+    <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+      <thead>
+      <tr>
+        <th>Supplier Amount</th>
+        <th>Cart</th>
+        <th>(-) Coupons</th>
+        <th>Before TAX</th>
+        <th>(+) Tax</th>
+        <th>After TAX</th>
+        <th>Profit</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{!!$settings->currency->symbol!!} {{number_format($amount_supplier,2)}}</td>
+          <td>{!!$settings->currency->symbol!!} {{number_format($amount_initial,2)}}</td>
+          <td>{!!$settings->currency->symbol!!} {{number_format($amount_coupon,2)}}</td>
+          <td>{!!$settings->currency->symbol!!} {{number_format($amount_without_tax,2)}}</td>
+          <td>{!!$settings->currency->symbol!!} {{number_format($amount_tax,2)}}</td>
+          <td>{!!$settings->currency->symbol!!} {{number_format($amount_with_tax,2)}}</td>
+          <td>{!!$settings->currency->symbol!!} {{number_format($amount_profit,2)}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
+  <!-- Income Table end -->
 </div>
 
 
@@ -62,11 +43,25 @@
   <div class="card-header">
     <h3>Income</h3>
   </div>
-  <div class="col-md-12">
+  <div class="d-flex justify-content-between">
+    <div>
+
+    </div>
     <form class="example" action="" style="margin:auto;max-width:300px">
-      <input type="text" placeholder="Search Invocie Number.." name="query">
+      <input type="text" placeholder="Search Order#" name="query">
       <button type="submit"><i class="fa fa-search"></i></button>
     </form>
+    <div class="mr-2">
+      <select class="form-control cart66-select" id="user_id"  name="user_id" style="font-size: inherit">
+        <option @if(request()->get('user_id') == null) selected @endif data-url="{{url('/work/finance/income')}}">
+          {{request()->get('user_id') == null ? 'Filter by user' : 'All Users'}}</option>
+        @foreach($users as $user)
+          <option @if(request()->get('user_id') == $user->id) selected @endif data-url="{{url('/work/finance/income')}}?user_id={{$user->id}}">
+            {{$user->name}}
+          </option>
+        @endforeach
+      </select>
+    </div>
   </div>
   <div class="col-md-12">
     <div class="col-md-9">
@@ -82,8 +77,8 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th>Inv Number</th>
-          <th>Customer</th>
+          <th>Order#</th>
+          <th>User</th>
           <th>Initial Cart</th>
           <th>Coupon</th>
           <th>Profit</th>
@@ -102,7 +97,7 @@
                               ?>
         <tr>
           <td>{{$invoice->created_at->toDateString()}}</td>
-          <td><b>{{$invoice->invoice_number}}</b></td>
+          <td><b>{{$invoice->id}}</b></td>
           <td>{{$invoice->user->name}}</td>
           <td>{!!$settings->currency->symbol!!}{{number_format($invoice->initial_amount,2)}}</td>
           <td>{!!$settings->currency->symbol!!}{{number_format($invoice->coupon_amount,2)}}</td>
@@ -218,7 +213,20 @@
     clear: both;
     display: table;
   }
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    background-color: transparent !important;
+    padding-top: 0px !important;
+  }
+
 </style>
+<script>
+  $('#user_id').on('change', function () {
+    window.location.href = $(this).children("option:selected").data('url')
+  });
+  $(document).ready(function() {
+    $('#user_id').select2();
+  });
+</script>
 <hr />
 
 @endsection

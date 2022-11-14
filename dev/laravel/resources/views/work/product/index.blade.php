@@ -27,7 +27,7 @@
             </button>
         </a>
         <a href="{{ route('work.product.csv_export') }}">
-            <button type="button" class="btn btn-primary waves-effect">
+            <button type="button" class="btn btn-success waves-effect">
                 <i class="fa fa-cloud-download"></i>
                 <span>Export</span>
             </button>

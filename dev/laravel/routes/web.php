@@ -450,6 +450,10 @@ Route::get('/work/product/create', [
     'uses' => 'work\ProductsController@create',
     'as' => 'work.product.create'
 ]);
+Route::get('/work/products/export', [
+    'uses' => 'work\ProductsController@csv_export',
+    'as' => 'work.product.csv_export'
+]);
 Route::post('/work/product/store', [
     'uses' => 'work\ProductsController@store',
     'as' => 'work.product.store'
@@ -547,6 +551,8 @@ Route::post('/work/variation/update/{id}', [
     'uses' => 'work\VariantController@update',
     'as' => 'work.variation.update'
 ]);
+
+
 //////////// Variation Categories /////////////////
 ////////// End Add Product   ////////
 

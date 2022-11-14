@@ -40,7 +40,7 @@
                             aria-describedby="simpletable_info">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>Order</th>
                                     <th>User</th>
                                     <th>Customer Name</th>
                                     <th>Customer Email</th>

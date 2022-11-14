@@ -77,7 +77,7 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th>Order#</th>
+          <th>Order</th>
           <th>User</th>
           <th>Initial Cart</th>
           <th>Coupon</th>
@@ -97,7 +97,7 @@
                               ?>
         <tr>
           <td>{{$invoice->created_at->toDateString()}}</td>
-          <td><b>{{$invoice->id}}</b></td>
+          <td><b>#{{$invoice->id}}</b></td>
           <td>{{$invoice->user->name}}</td>
           <td>{!!$settings->currency->symbol!!}{{number_format($invoice->initial_amount,2)}}</td>
           <td>{!!$settings->currency->symbol!!}{{number_format($invoice->coupon_amount,2)}}</td>

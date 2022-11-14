@@ -56,6 +56,9 @@ class InvoicesController extends Controller
     $user = Invoice::find($invoices->id)->user;
       return "$user->name";
     })
+    ->addColumn('id', function($invoices) {
+        return "#$invoices->id";
+    })
     ->addColumn('customer_name', function($invoices) {
         return "$invoices->name";
     })

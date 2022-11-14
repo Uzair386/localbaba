@@ -14,6 +14,7 @@ use App\Setting;
 use Session;
 use DataTables;
 use Sunra\PhpSimple\HtmlDomParser;
+use League\Csv\Writer;
 
 class ProductsController extends Controller
 {
@@ -606,7 +607,377 @@ if($setting->live_production==0){
     }
 }
 
+public function csv_export() {
+    $products = Product::where('parent_id', '=', 0)->get();
 
+    $header = [
+        'Handle', 'Title', 'Body (HTML)','Vendor','Product Category',
+        'Type','Tags','Published','Option1 Name','Option1 Value',
+        'Option2 Name','Option2 Value','Option3 Name','Option3 Value',
+        'Variant SKU','Variant Grams','Variant Inventory Tracker','Variant Inventory Qty',
+        'Variant Inventory Policy','Variant Fulfillment Service','Variant Price','Variant Compare At Price',
+        'Variant Requires Shipping','Variant Taxable','Variant Barcode','Image Src','Image Position','Image Alt Text',
+        'Gift Card','SEO Title','SEO Description','Google Shopping / Google Product Category','Google Shopping / Gender',
+        'Google Shopping / Age Group','Google Shopping / MPN','Google Shopping / AdWords Grouping','Google Shopping / AdWords Labels',
+        'Google Shopping / Condition','Google Shopping / Custom Product','Google Shopping / Custom Label 0','Google Shopping / Custom Label 1',
+        'Google Shopping / Custom Label 2','Google Shopping / Custom Label 3','Google Shopping / Custom Label 4',
+        'Variant Image','Variant Weight Unit','Variant Tax Code','Cost per item','Price / International',
+        'Compare At Price / International','Status'
+    ];
+    $records = [];
+
+    foreach ($products as $product) {
+        $arr = array();
+        $arr[0] = $product->slug;
+        $arr[1] = $product->name;
+        $arr[2] = $product->description;
+        $arr[3] = $product->supplier->name;
+        $cat = $product->category()->first();
+        $category = $cat->name;
+        $parent = $cat->parent_id;
+        while ($parent != 0) {
+            $cat = $cat->parent()->first();
+            if($cat!=null) {
+                $category = $cat->name.' > '.$category;
+            }
+            $parent = $cat->parent_id;
+        }
+        $arr[4] = $category;
+        $arr[5] = '';
+        $arr[6] = '';
+        $arr[7] = $product->active == 1 ? 'TRUE' : 'FALSE';
+        $arr[8] = 'Title';
+        $arr[9] = 'Default Title';
+        $arr[10] = '';
+        $arr[11] = '';
+        $arr[12] = '';
+        $arr[13] = '';
+        $arr[14] = '';
+        $arr[15] = '';
+        $arr[16] = '';
+        $arr[17] = $product->stock;
+        $arr[18] = 'deny';
+        $arr[19] = 'manual';
+        $arr[20] = $product->price;
+        $arr[21] = '';
+        $arr[22] = 'TRUE';
+        $arr[23] = '';
+        $arr[24] = '';
+        $arr[25] = $product->image;
+        $arr[26] = '1';
+        $arr[27] = '';
+        $arr[28] = '';
+        $arr[29] = '';
+        $arr[30] = '';
+        $arr[31] = '';
+        $arr[32] = '';
+        $arr[33] = '';
+        $arr[34] = '';
+        $arr[35] = '';
+        $arr[36] = '';
+        $arr[37] = '';
+        $arr[38] = '';
+        $arr[39] = '';
+        $arr[40] = '';
+        $arr[41] = '';
+        $arr[42] = '';
+        $arr[43] = '';
+        $arr[44] = '';
+        $arr[45] = '';
+        $arr[46] = '';
+        $arr[47] = $product->supplier_price;
+        $arr[48] = '';
+        $arr[49] = '';
+        $arr[50] = $product->active == 1 ? 'active' : 'draft';
+        $records[] = $arr;
+        if(isset($product->image_ex1) && $product->image_ex1 != "") {
+            $arr = array();
+            $arr[0] = $product->slug;
+            $arr[1] = '';
+            $arr[2] = '';
+            $arr[3] = '';
+            $arr[4] = '';
+            $arr[5] = '';
+            $arr[6] = '';
+            $arr[7] = '';
+            $arr[8] = '';
+            $arr[9] = '';
+            $arr[10] = '';
+            $arr[11] = '';
+            $arr[12] = '';
+            $arr[13] = '';
+            $arr[14] = '';
+            $arr[15] = '';
+            $arr[16] = '';
+            $arr[17] = '';
+            $arr[18] = '';
+            $arr[19] = '';
+            $arr[20] = '';
+            $arr[21] = '';
+            $arr[22] = '';
+            $arr[23] = '';
+            $arr[24] = '';
+            $arr[25] = $product->image_ex1;
+            $arr[26] = '2';
+            $arr[27] = '';
+            $arr[28] = '';
+            $arr[29] = '';
+            $arr[30] = '';
+            $arr[31] = '';
+            $arr[32] = '';
+            $arr[33] = '';
+            $arr[34] = '';
+            $arr[35] = '';
+            $arr[36] = '';
+            $arr[37] = '';
+            $arr[38] = '';
+            $arr[39] = '';
+            $arr[40] = '';
+            $arr[41] = '';
+            $arr[42] = '';
+            $arr[43] = '';
+            $arr[44] = '';
+            $arr[45] = '';
+            $arr[46] = '';
+            $arr[47] = '';
+            $arr[48] = '';
+            $arr[49] = '';
+            $arr[50] = '';
+            $records[] = $arr;
+        }
+        if(isset($product->image_ex2) && $product->image_ex2 != "") {
+            $arr = array();
+            $arr[0] = $product->slug;
+            $arr[1] = '';
+            $arr[2] = '';
+            $arr[3] = '';
+            $arr[4] = '';
+            $arr[5] = '';
+            $arr[6] = '';
+            $arr[7] = '';
+            $arr[8] = '';
+            $arr[9] = '';
+            $arr[10] = '';
+            $arr[11] = '';
+            $arr[12] = '';
+            $arr[13] = '';
+            $arr[14] = '';
+            $arr[15] = '';
+            $arr[16] = '';
+            $arr[17] = '';
+            $arr[18] = '';
+            $arr[19] = '';
+            $arr[20] = '';
+            $arr[21] = '';
+            $arr[22] = '';
+            $arr[23] = '';
+            $arr[24] = '';
+            $arr[25] = $product->image_ex2;
+            $arr[26] = '3';
+            $arr[27] = '';
+            $arr[28] = '';
+            $arr[29] = '';
+            $arr[30] = '';
+            $arr[31] = '';
+            $arr[32] = '';
+            $arr[33] = '';
+            $arr[34] = '';
+            $arr[35] = '';
+            $arr[36] = '';
+            $arr[37] = '';
+            $arr[38] = '';
+            $arr[39] = '';
+            $arr[40] = '';
+            $arr[41] = '';
+            $arr[42] = '';
+            $arr[43] = '';
+            $arr[44] = '';
+            $arr[45] = '';
+            $arr[46] = '';
+            $arr[47] = '';
+            $arr[48] = '';
+            $arr[49] = '';
+            $arr[50] = '';
+            $records[] = $arr;
+        }
+        if(isset($product->image_ex3) && $product->image_ex3 != "") {
+            $arr = array();
+            $arr[0] = $product->slug;
+            $arr[1] = '';
+            $arr[2] = '';
+            $arr[3] = '';
+            $arr[4] = '';
+            $arr[5] = '';
+            $arr[6] = '';
+            $arr[7] = '';
+            $arr[8] = '';
+            $arr[9] = '';
+            $arr[10] = '';
+            $arr[11] = '';
+            $arr[12] = '';
+            $arr[13] = '';
+            $arr[14] = '';
+            $arr[15] = '';
+            $arr[16] = '';
+            $arr[17] = '';
+            $arr[18] = '';
+            $arr[19] = '';
+            $arr[20] = '';
+            $arr[21] = '';
+            $arr[22] = '';
+            $arr[23] = '';
+            $arr[24] = '';
+            $arr[25] = $product->image_ex3;
+            $arr[26] = '4';
+            $arr[27] = '';
+            $arr[28] = '';
+            $arr[29] = '';
+            $arr[30] = '';
+            $arr[31] = '';
+            $arr[32] = '';
+            $arr[33] = '';
+            $arr[34] = '';
+            $arr[35] = '';
+            $arr[36] = '';
+            $arr[37] = '';
+            $arr[38] = '';
+            $arr[39] = '';
+            $arr[40] = '';
+            $arr[41] = '';
+            $arr[42] = '';
+            $arr[43] = '';
+            $arr[44] = '';
+            $arr[45] = '';
+            $arr[46] = '';
+            $arr[47] = '';
+            $arr[48] = '';
+            $arr[49] = '';
+            $arr[50] = '';
+            $records[] = $arr;
+        }
+        if(isset($product->image_ex4) && $product->image_ex4 != "") {
+            $arr = array();
+            $arr[0] = $product->slug;
+            $arr[1] = '';
+            $arr[2] = '';
+            $arr[3] = '';
+            $arr[4] = '';
+            $arr[5] = '';
+            $arr[6] = '';
+            $arr[7] = '';
+            $arr[8] = '';
+            $arr[9] = '';
+            $arr[10] = '';
+            $arr[11] = '';
+            $arr[12] = '';
+            $arr[13] = '';
+            $arr[14] = '';
+            $arr[15] = '';
+            $arr[16] = '';
+            $arr[17] = '';
+            $arr[18] = '';
+            $arr[19] = '';
+            $arr[20] = '';
+            $arr[21] = '';
+            $arr[22] = '';
+            $arr[23] = '';
+            $arr[24] = '';
+            $arr[25] = $product->image_ex4;
+            $arr[26] = '5';
+            $arr[27] = '';
+            $arr[28] = '';
+            $arr[29] = '';
+            $arr[30] = '';
+            $arr[31] = '';
+            $arr[32] = '';
+            $arr[33] = '';
+            $arr[34] = '';
+            $arr[35] = '';
+            $arr[36] = '';
+            $arr[37] = '';
+            $arr[38] = '';
+            $arr[39] = '';
+            $arr[40] = '';
+            $arr[41] = '';
+            $arr[42] = '';
+            $arr[43] = '';
+            $arr[44] = '';
+            $arr[45] = '';
+            $arr[46] = '';
+            $arr[47] = '';
+            $arr[48] = '';
+            $arr[49] = '';
+            $arr[50] = '';
+            $records[] = $arr;
+        }
+        if(isset($product->image_ex5) && $product->image_ex5 != "") {
+            $arr = array();
+            $arr[0] = $product->slug;
+            $arr[1] = '';
+            $arr[2] = '';
+            $arr[3] = '';
+            $arr[4] = '';
+            $arr[5] = '';
+            $arr[6] = '';
+            $arr[7] = '';
+            $arr[8] = '';
+            $arr[9] = '';
+            $arr[10] = '';
+            $arr[11] = '';
+            $arr[12] = '';
+            $arr[13] = '';
+            $arr[14] = '';
+            $arr[15] = '';
+            $arr[16] = '';
+            $arr[17] = '';
+            $arr[18] = '';
+            $arr[19] = '';
+            $arr[20] = '';
+            $arr[21] = '';
+            $arr[22] = '';
+            $arr[23] = '';
+            $arr[24] = '';
+            $arr[25] = $product->image_ex5;
+            $arr[26] = '6';
+            $arr[27] = '';
+            $arr[28] = '';
+            $arr[29] = '';
+            $arr[30] = '';
+            $arr[31] = '';
+            $arr[32] = '';
+            $arr[33] = '';
+            $arr[34] = '';
+            $arr[35] = '';
+            $arr[36] = '';
+            $arr[37] = '';
+            $arr[38] = '';
+            $arr[39] = '';
+            $arr[40] = '';
+            $arr[41] = '';
+            $arr[42] = '';
+            $arr[43] = '';
+            $arr[44] = '';
+            $arr[45] = '';
+            $arr[46] = '';
+            $arr[47] = '';
+            $arr[48] = '';
+            $arr[49] = '';
+            $arr[50] = '';
+            $records[] = $arr;
+        }
+    }
+
+//load the CSV document from a string
+    $csv = Writer::createFromString('');
+
+//insert the header
+    $csv->insertOne($header);
+
+//insert all the records
+    $csv->insertAll($records);
+
+    return $csv->output('products_export.csv');
+}
 public function csv_import(Request $request)
 {
 

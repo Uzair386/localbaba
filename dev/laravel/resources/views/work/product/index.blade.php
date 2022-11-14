@@ -26,6 +26,12 @@
                 <i class="fa fa-refresh"></i><span>{{ __('messages.Refresh') }}</span>
             </button>
         </a>
+        <a href="{{ route('work.product.csv_export') }}">
+            <button type="button" class="btn btn-primary waves-effect">
+                <i class="fa fa-cloud-download"></i>
+                <span>Export</span>
+            </button>
+        </a>
     </div>
     <br>
 

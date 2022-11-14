@@ -1058,10 +1058,10 @@ if (($getdata = fopen($filepath, "r")) !== FALSE) {
           $product_price              = preg_replace("/[^0-9,]/", "", $product_price);*/
 
           //calc price_percent_gain
-          $percentage_value = ($product_price/100)*$setting->price_percent_gain;//get percentage value
-          $new_price = $product_price + $percentage_value;//gets new sale price
+          //$percentage_value = ($product_price/100)*$setting->price_percent_gain;//get percentage value
+          //$new_price = $product_price + $percentage_value;//gets new sale price
           //calc price_percent_gain
-
+          $new_price =  $columnData[20];
           // $product_price              = preg_replace('/\D/', '', $product_price);
           $product_stock              = ($columnData[17]);
           $product_stock              = preg_replace('/\D/', '', $product_stock);

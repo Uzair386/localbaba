@@ -497,14 +497,8 @@
 
 
 
-          @if(empty(Auth::user()->country->name) || empty(Auth::user()->address) || empty(Auth::user()->phone_number) ||
-          empty(Auth::user()->state)|| empty(Auth::user()->city) || empty(Auth::user()->postal_code) )
-          <div class="alert alert-warning text-center">
-            <strong>{{ __('messages.Empty Field') }}</strong>{{ __('messages.One or more elements from your shipping address is empty') }}
 
-          </div>
 
-          @else
           <div class="row">
             @if($gateway->stripe_active == 1)
             <?php $cart_total = Cart::total();
@@ -636,7 +630,7 @@
                 </div>
           </div>
           <hr />
-          @endif
+
 
 
 

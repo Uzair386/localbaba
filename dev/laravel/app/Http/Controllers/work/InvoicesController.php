@@ -578,4 +578,231 @@ class InvoicesController extends Controller
 
         return $csv->output('orders_export.csv');
     }
+    public function import()
+    {
+        //shows files in the imports directory
+        $directory    = 'uploads/imports/fulfillment';
+        $path = preg_grep('~\.(csv|gz)$~', scandir($directory));
+        $files   = array_diff($path, array('.', '..'));
+        ///
+        return view('work.finance.bulk-fulfillment-import')
+            ->with ('files',$files);
+    }
+    public function csv_upload(Request $request)
+    {
+        $setting =Setting::first();
+        ////////////////demo//////////////
+        if($setting->live_production==0){
+            Session::flash('info', 'demo');
+            return redirect()->back();
+        }
+        $target_dir = "uploads/imports/fulfillment";
+        $csv_file = $request->csv_file;
+        $csv_file_type = $csv_file->getClientOriginalExtension();
+        // $file_new_name = $csv_file->getClientOriginalName();
+
+        if ($csv_file_type == "gz"){
+            //import gz data
+            $csv_file_new_name = 'import.csv.gz';
+            $csv_file->move($target_dir,$csv_file_new_name);
+            //extract GZ data
+            error_reporting(0);
+            $file_name = 'uploads/imports/import.csv.gz';
+            // Raising this value may increase performance
+            $buffer_size = 4096; // read 4kb at a time
+            $out_file_name = str_replace('.gz', '', $file_name);
+
+            // Open our files (in binary mode)
+            $file = gzopen($file_name, 'rb');
+            if (empty($file)){
+                Session::flash('error', "Error (import.csv.gz)File Was Not Found");
+                return redirect()->back();
+            }
+            $out_file = fopen($out_file_name, 'wb');
+
+            // Keep repeating until the end of the input file
+            while(!gzeof($file)) {
+                // Read buffer-size bytes
+                // Both fwrite and gzread and binary-safe
+                fwrite($out_file, gzread($file, $buffer_size));
+            }
+
+            // Files are done, close files
+            fclose($out_file);
+            gzclose($file);
+            unlink($file_name);//deletes old csv.gz file
+            //////////Check Header
+            $target_file = 'uploads/imports/fulfillment/import.csv';
+            $requiredHeaders = array('name', 'price','stock', 'description', 'image', 'original_url'); //headers we expect
+            $header_check = fopen($target_file, 'r');
+            $firstLine = fgets($header_check); //get first line of csv file
+            fclose($header_check);
+            $foundHeaders = str_getcsv(trim($firstLine), ',', '"'); //parse to array
+
+            if ($foundHeaders !== $requiredHeaders) {
+                Session::flash('error', "File headers do not match");
+                // print 'Headers do not match: '.implode(', ', $foundHeaders);
+                unlink($target_file);
+                Session::flash('info', "File Deleted, Please Check the sample");
+                return redirect()->back();
+            }
+            if (($getdata = fopen($target_file, "r")) !== FALSE) {
+                fgetcsv($getdata);
+                fclose($getdata);
+                Session::flash('success', "Success: File has been Uploaded and Extracted");
+                return redirect()->back();
+            }else{
+                Session::flash('error', "Upload Error");
+                return redirect()->back();
+            }
+        }
+
+        if ($csv_file_type == "csv"){
+            $csv_file_new_name = 'import.csv';
+            $csv_file->move($target_dir,$csv_file_new_name);
+            $target_file = 'uploads/imports/fulfillment/import.csv';
+            //////////Check Header
+            $requiredHeaders = array('Title', 'Variant Price','Variant Inventory Qty', 'Body (HTML)', 'Image Src', /*'original_url'*/); //headers we expect
+            $header_check = fopen($target_file, 'r');
+            $firstLine = fgets($header_check); //get first line of csv file
+            fclose($header_check);
+            $foundHeaders = str_getcsv(trim($firstLine), ',', '"'); //parse to array
+
+            /*if ($foundHeaders !== $requiredHeaders) {
+              Session::flash('error', "File headers do not match");
+                     // print 'Headers do not match: '.implode(', ', $foundHeaders);
+                       unlink($target_file);
+               Session::flash('info', "File Deleted, Please Check the sample");
+               return redirect()->back();
+                  }
+            */
+            if (($getdata = fopen($target_file, "r")) !== FALSE) {
+                fgetcsv($getdata);
+                fclose($getdata);
+                Session::flash('success', "Success: File has been Uploaded");
+                return redirect()->back();
+            }else{
+                Session::flash('error', "Upload Error");
+                return redirect()->back();
+            }
+
+        }else {
+            Session::flash('warning', "Invalid: File Type Must be CSV or GZ");
+            return redirect()->back();
+        }
+    }
+
+    public function csv_import(Request $request)
+    {
+
+        $setting =Setting::first();
+////////////////demo//////////////
+        if($setting->live_production==0){
+            Session::flash('info', 'demo');
+            return redirect()->back();
+        }
+//add settings import limit
+// demo 0
+        error_reporting(0);
+        $filepath = "uploads/imports/fulfillment/import.csv";
+
+//////////Check Header
+        $requiredHeaders = array('name', 'price', 'stock','description', 'image', 'original_url'); //headers we expect
+        $header_check = fopen($filepath, 'r');
+        if (empty($header_check)){
+            Session::flash('error', "Invalid: import.csv File Was Not Found");
+            return redirect()->back();
+        }
+        $firstLine = fgets($header_check); //get first line of csv file
+        fclose($header_check);
+        $foundHeaders = str_getcsv(trim($firstLine), ',', '"'); //parse to array
+
+        /*if ($foundHeaders !== $requiredHeaders) {
+          Session::flash('error', "File headers do not match");
+           unlink($filepath);
+           Session::flash('info', "File Deleted, Please Check the sample");
+           return redirect()->back();
+        }*/
+        $rows=0;
+        $imported=0;
+        $updated=0;
+        $incomplete=0;
+        $handle = null;
+        $product = null;
+        if (($getdata = fopen($filepath, "r")) !== FALSE) {
+            fgetcsv($getdata);
+            while (($data = fgetcsv($getdata)) !== FALSE) {
+                $fieldCount = count($data);
+                for ($c=0; $c < $fieldCount; $c++) {
+                    $columnData[$c] = $data[$c];
+                }
+                $rows++;
+                $handle = $columnData[0];
+                $code = $columnData[1];
+                $multiple =  $columnData[2];
+                //$product_category           = $request->selected_category;
+
+                //check for empty fields and rows
+                if (empty($handle) || empty($code) /*|| empty($product_original_url)*/) {
+                    $incomplete++;
+                    continue;
+                }
+                // if($incomplete>0){
+                //   Session::flash('warning', "($incomplete) Field(s) are empty");
+                //   return redirect()->back();
+                // }
+                //updates aleady existing products
+                // if (Product::where('original_url', '=',$product_original_url)->exists()&& !empty($product_price)) {
+                //     $products = Product::where('original_url',$product_original_url)->first();
+                //     $products->price = $product_price;
+                //     $products->save();
+                //     $updated++;
+                //     continue;
+                //     //skip if the product exists //verifying via original url
+                // }
+
+                // SQL Query to insert data into DataBase
+                $order = Invoice::find($handle);
+                if($order == null) {
+                    $incomplete++;
+                    continue;
+                }
+                if($multiple != '0') {
+                    $codes =  explode('|',$code);
+                }
+                foreach ($order->child as $index => $product) {
+                    if($multiple!='0') {
+                        $product->tracking_code = $codes[$index] ?? '';
+                    }
+                    else {
+                        $product->tracking_code = $code;
+                    }
+                    $product->save();
+
+                }
+                $imported++;
+            }
+            unset($getdata);
+            if (file_exists($filepath)){
+                unlink($filepath);
+            }
+
+            return redirect()->back()->with('message',"<div class='text-center'
+                         style=' width: auto;
+                          padding: 10px;
+                          border: 5px solid gray;
+                          margin: 0;''>
+                          <div style='Color:black'> Total Processed $rows </div><br />
+                          <div style='Color:green'> Tracking Updated: $imported </div><br />
+                          <!--<div style='Color:blue'> Data Skipped $updated </div><br />-->
+                          <div style='Color:red'> Incomplete Data $incomplete </div>
+                        </div>");
+
+        }else {
+            Session::flash('warning', "Failed");
+            return redirect()->back();
+        }
+
+
+    }
 }

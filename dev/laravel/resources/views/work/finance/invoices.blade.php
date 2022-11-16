@@ -24,9 +24,15 @@
         </div>
 
         <div>
+            <a class="" href="{{ route('work.finance.bulk_fulfillment_import') }}">
+                <button type="button" class="btn btn-info waves-effect">
+                    <i class="fa fa-bars"></i>
+                    <span>Bulk Fulfillment</span>
+                </button>
+            </a>
             <a href="">
                 <button type="button" class="btn btn-warning waves-effect">
-                    <i class="fa fa-refresh"></i><span>Refresh</span>
+                    <i class="fa fa-refresh"></i><span> Refresh</span>
                 </button>
             </a>
             <a class="mr-3" href="{{ route('work.invoices.csv_export') }}">

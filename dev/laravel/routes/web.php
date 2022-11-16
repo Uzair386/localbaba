@@ -573,6 +573,18 @@ Route::get('/work/finance/invoices/export', [
     'uses' => 'work\InvoicesController@csv_export',
     'as' => 'work.invoices.csv_export'
 ]);
+Route::get('/work/finance/invoices/bulk_fulfillment_import', [
+    'uses' => 'work\InvoicesController@import',
+    'as' => 'work.finance.bulk_fulfillment_import'
+]);
+Route::post('/work/finance/invoices/csv_upload', [
+    'uses' => 'work\InvoicesController@csv_upload',
+    'as' => 'work.finance.csv_upload'
+]);
+Route::post('/work/finance/invoices/csv_import', [
+    'uses' => 'work\InvoicesController@csv_import',
+    'as' => 'work.finance.csv_import'
+]);
 Route::get('/work/finance/delete/{id}', [
     'uses' => 'work\InvoicesController@destroy',
     'as' => 'work.invoice.delete'

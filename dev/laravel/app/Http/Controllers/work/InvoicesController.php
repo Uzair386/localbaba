@@ -9,6 +9,7 @@ use App\User;
 use App\Invoice;
 use App\Credit;
 use App\Setting;
+use League\Csv\Writer;
 use Session;
 use DataTables;
 use App\Child_Invoice;
@@ -455,5 +456,126 @@ class InvoicesController extends Controller
 
    }
 
+    public function csv_export() {
+        $invoices = Invoice::all();
 
+        $header = [
+            'Name', 'Email', 'Financial Status','Paid at','Fulfillment Status','Accepts Marketing',
+            'Currency','Subtotal','Shipping','Taxes','Total',
+            'Discount Code','Discount Amount','Shipping Method','Created at',
+            'Lineitem quantity','Lineitem name','Lineitem price','Lineitem compare at price',
+            'Lineitem sku', 'Lineitem required shipping','Lineitem taxable','Lineitem fulfillment status','Billing Name',
+            'Billing Street','Billing Address1','Billing Address2','Billing Company','Billing City', 'Billing Zip',
+            'Billing Province', 'Billing Country', 'Billing Phone', 'Shipping Name','Shipping Street','Shipping Address1',
+            'Shipping Address2','Shipping Company','Shipping City', 'Shipping Zip', 'Shipping Province',
+            'Shipping Country', 'Shipping Phone', 'Notes', 'Note Attributes', 'Cancelled at', 'Payment Method',
+            'Payment Reference', 'Refunded Amount', 'Vendor', 'Id','Tags','Risk Level','Source','Lineitem discount',
+            'Tax 1 Name','Tax 1 Value','Tax 2 Name','Tax 2 Value','Tax 3 Name','Tax 3 Value','Tax 4 Name','Tax 4 Value',
+            'Tax 5 Name','Tax 5 Value','Phone','Receipt Number','Duties','Billing Province Name','Shipping Province Name',
+            'Payment ID','Payment Terms Name','Next Payment Due At','Payment References'
+        ];
+        $records = [];
+
+        foreach ($invoices as $invoice) {
+            $child = 1;
+            foreach ($invoice->child as $product) {
+                $arr = array();
+                $arr[0] = '#'.$invoice->id;
+                $arr[1] = $invoice->email;
+                $arr[2] = $invoice->status == 0 ? 'unpaid': 'paid';
+                $arr[3] = $invoice->status == 1 ? $invoice->updated_at : '';
+                $arr[4] = $invoice->fulfillment_status;
+                $arr[5] = 'no';
+                $arr[6] = $invoice->currency_symbol;
+                $arr[7] = $invoice->initial_amount;
+                $arr[8] = '0';
+                $arr[9] = $invoice->tax_amount;
+                $arr[10] = $invoice->total_amount_with_tax;
+                $arr[11] = $invoice->coupon_code == 0 ? '' : $invoice->coupon_code;
+                $arr[12] = $invoice->coupon_amount;
+                $arr[13] = '';
+                $arr[14] = $invoice->created_at;
+
+                //Item Fields
+                $arr[15] = $product->product_quantity;
+                $arr[16] = $product->product_name;
+                $arr[17] = $product->initial_amount;
+                $arr[18] = '';
+                $arr[19] = '';
+                $arr[20] = '';
+                $arr[21] = '';
+                $arr[22] = $product->tracking_code == "" ? 'pending': 'fulfilled';
+
+                $arr[23] = $invoice->name;
+                $arr[24] = '';
+                $arr[25] = $invoice->address;
+                $arr[26] = '';
+                $arr[27] = '';
+                $arr[28] = $invoice->city;
+                $arr[29] = $invoice->postal_code;
+                $arr[30] = $invoice->state;
+                $arr[31] = $invoice->country;
+                $arr[32] = $invoice->phone;
+
+                $arr[33] = $invoice->name;
+                $arr[34] = '';
+                $arr[35] = $invoice->address;
+                $arr[36] = '';
+                $arr[37] = '';
+                $arr[38] = $invoice->city;
+                $arr[39] = $invoice->postal_code;
+                $arr[40] = $invoice->state;
+                $arr[41] = $invoice->country;
+                $arr[42] = $invoice->phone;
+                $arr[43] = '';
+                $arr[44] = '';
+                $arr[45] = '';
+                $arr[46] = $invoice->payment_method;
+                $arr[47] = '';
+                $arr[48] = '';
+
+                //Product related
+                $arr[49] = $product->supplier;
+
+                $arr[50] = $invoice->id;
+                $arr[51] = '';
+                $arr[52] = '';
+                $arr[53] = '';
+                //Product related
+                $arr[54] = $product->coupon_amount;
+
+                $arr[55] = '';
+                $arr[56] = '';
+                $arr[57] = '';
+                $arr[58] = '';
+                $arr[59] = '';
+                $arr[60] = '';
+                $arr[61] = '';
+                $arr[62] = '';
+                $arr[63] = '';
+                $arr[64] = '';
+                $arr[65] = $invoice->phone;
+                $arr[66] = $invoice->phone;
+                $arr[67] = '';
+                $arr[68] = $invoice->state;
+                $arr[69] = $invoice->state;
+                $arr[70] = '';
+                $arr[71] = '';
+                $arr[72] = '';
+                $arr[73] = '';
+                $records[] = $arr;
+            }
+        }
+
+//load the CSV document from a string
+        $csv = Writer::createFromString('');
+
+//insert the header
+        $csv->insertOne($header);
+
+//insert all the records
+        $csv->insertAll($records);
+
+        return $csv->output('orders_export.csv');
+    }
 }

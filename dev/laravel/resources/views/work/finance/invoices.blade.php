@@ -22,12 +22,20 @@
                 <option @if(request()->get('filter') == 'partially_fulfilled') selected @endif data-url="{{url('/work/finance/invoices')}}?filter=partially_fulfilled">Partially Fulfilled</option>
             </select>
         </div>
-        <a href="">
-            <button type="button" class="btn btn-warning waves-effect">
-                <i class="fa fa-refresh"></i><span>Refresh</span>
-            </button>
-        </a>
-        <div></div>
+
+        <div>
+            <a href="">
+                <button type="button" class="btn btn-warning waves-effect">
+                    <i class="fa fa-refresh"></i><span>Refresh</span>
+                </button>
+            </a>
+            <a class="mr-3" href="{{ route('work.invoices.csv_export') }}">
+                <button type="button" class="btn btn-success waves-effect">
+                    <i class="fa fa-cloud-download"></i>
+                    <span>Export</span>
+                </button>
+            </a>
+        </div>
 
     </div>
     <div class="card-block">

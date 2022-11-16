@@ -569,6 +569,10 @@ Route::get('/work/finance/invoices', [
     'uses' => 'work\InvoicesController@index',
     'as' => 'work.invoices'
 ]);
+Route::get('/work/finance/invoices/export', [
+    'uses' => 'work\InvoicesController@csv_export',
+    'as' => 'work.invoices.csv_export'
+]);
 Route::get('/work/finance/delete/{id}', [
     'uses' => 'work\InvoicesController@destroy',
     'as' => 'work.invoice.delete'

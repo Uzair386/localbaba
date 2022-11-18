@@ -165,7 +165,7 @@
                                         <span class="pcoded-micon">
                                             <i class="fa fa-list"></i>
                                         </span>
-                                        <span class="pcoded-mtext">{{ __('messages.Invoices') }}</span>
+                                        <span class="pcoded-mtext">Orders</span>
                                     </a>
                                 </li>
 

@@ -31,14 +31,14 @@
                                 height="50" align="left">
                         </div>
                         <div class="col-md-6 col-lg-6">
-                            @if ($invoice->status == 1)
-                            <h4>
-                                <font color="779500" class="pull-right" align="right">{{ __('messages.PAID') }}</font>
-                            </h4>
-                            @elseif($invoice->status==0 && $invoice->validity > \Carbon\Carbon::now())
-                            <h4>
-                                <font color="B20B0B" class="pull-right" align="right">{{ __('messages.UNPAID') }}</font>
-                            </h4>
+                            @if ($invoice->status == 0)
+                                <h4>
+                                    <font color="B20B0B" class="pull-right" align="right">{{ __('messages.UNPAID') }}</font>
+                                </h4>
+                            @else
+                                <h4>
+                                    <font color="779500" class="pull-right" align="right">{{ __('messages.PAID') }}</font>
+                                </h4>
                             @endif
 
                         </div>
@@ -88,9 +88,9 @@
                                         <div class="card-block">
                                             <strong>{{ __('messages.Payment Status') }}:</strong>
                                             @if ($invoice->status == 1)
-                                            <font color="green">{{ __('messages.PAID') }}</font>
-                                            @elseif($invoice->status==0 && $invoice->validity > \Carbon\Carbon::now())
-                                            <font color="red">{{ __('messages.UNPAID') }}</font>
+                                                <font color="green">{{ __('messages.PAID') }}</font>
+                                            @else
+                                                <font color="red">{{ __('messages.UNPAID') }}</font>
                                             @endif<br>
                                             <strong>{{ __('messages.Method') }}:</strong>
                                             {{$invoice->payment_method}}<br>

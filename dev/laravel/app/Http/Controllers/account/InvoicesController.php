@@ -36,47 +36,49 @@ class InvoicesController extends Controller
     ////////Get DT //////////////////////////////////
     public function get_invoice_data(){
   $user = Auth::user();
-  $invoices = Invoice::select([
-                        'id',
-                        'user_id',
-                        'invoice_number',
-                        'payment_method',
-                        'total_amount_with_tax',
-                        'status',
-                        'created_at',
-                        ])->
-                        where('user_id',$user->id)->get();
+  $invoices = Invoice::where('user_id',$user->id)->get();
 
 
 
     return Datatables::of($invoices)
-    ->addColumn('invoice_number', function($invoices) {
-      return "<b>$invoices->invoice_number</b>";
-    })
-    ->addColumn('invoice_amount', function($invoices) {
-      $settings =Setting::first();
-      return $settings->currency->symbol.''.number_format($invoices->total_amount_with_tax,2);
-    })
-    ->addColumn('invoice_date', function($invoices) {
-    //   $invoices_date = date('d-m-Y', strtotime($invoices->created_at));
-      $invoices_date = \Carbon\Carbon::parse($invoices->created_at)->format('d-M-y');
-      return "$invoices_date";
-    })
-    ->addColumn('invoice_status', function($invoices) {
-            if($invoices->status==1){
-                if($invoices->payment_method == 'Cash On Delivery') {
-                    return '<a href="" class="btn btn-warning btn-xs disabled" disabled="disabled" title="Invoice is Pending Approval " >Unpaid COD</a>';
-                }
-                else {
-                    return '<a href="#" class="btn btn-success btn-xs" title="'.__('messages.Invoice Has Been Approved').' " >'.__('messages.PAID').'</a>
-              <a href="#" class="btn btn-success btn-xs "  title="'.__('messages.Invoice Has Been Approved').'" >'.$invoices->payment_method.'</a>';
-                }
-
-            }elseif($invoices->status==0){
-              return '<button class="btn btn-danger btn-xs" title="'.__('messages.UNPAID').'" >'.__('messages.UNPAID').'</button>';
-          }
-      })
-
+        ->addColumn('id', function($invoices) {
+            return "#$invoices->id";
+        })
+        ->addColumn('customer_name', function($invoices) {
+            return "$invoices->name";
+        })
+        ->addColumn('customer_email', function($invoices) {
+            return "$invoices->email";
+        })
+        ->addColumn('customer_phone', function($invoices) {
+            return "$invoices->phone";
+        })
+        ->addColumn('fulfillment_status', function($invoices) {
+            return "$invoices->fulfillment_status";
+        })
+        ->addColumn('tracking_code', function($invoices) {
+            return "$invoices->tracking_code";
+        })
+        ->addColumn('invoice_number', function($invoices) {
+            return "<b>$invoices->invoice_number</b>";
+        })
+        ->addColumn('invoice_amount', function($invoices) {
+            $settings =Setting::first();
+            return $settings->currency->symbol.''.number_format($invoices->total_amount_with_tax,2);
+        })
+        ->addColumn('invoice_date', function($invoices) {
+            // $invoices_date = date('d-m-Y', strtotime($invoices->date));
+            $invoices_date = \Carbon\Carbon::parse($invoices->created_at)->format('d-M-y');
+            return "$invoices_date";
+        })
+        ->addColumn('invoice_status', function($invoices) {
+            if($invoices->payment_method != 'Cash On Delivery') {
+                return '<a href="" class="btn btn-success btn-xs disabled" disabled="disabled" title="Invoice Has Been Approved " >Paid</a>';
+            }
+            else {
+                return '<a href="" class="btn btn-warning btn-xs disabled" disabled="disabled" title="Invoice is Pending Approval " >Unpaid COD</a>';
+            }
+        })
     ->addColumn('action', function($invoices) {
       return '
       <a href="'.route('account.invoice.csv',$invoices->id).'" class="btn waves-effect waves-dark btn-inverse btn-outline-inverse btn-icon" title="'.__('messages.Download CSV').'"><i class="fa fa-download"></i></a>

@@ -5,7 +5,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h3>{{ __('messages.Invoices') }}</h3>
+        <h3>Order History</h3>
     </div>
     <div class="icon-and-text-button-demo">
         {{-- <a href="">
@@ -31,11 +31,17 @@
                             aria-describedby="simpletable_info">
                             <thead>
                                 <tr>
-                                    <th>{{ __('messages.Number') }}</th>
-                                    <th>{{ __('messages.Amount') }}</th>
-                                    <th>{{ __('messages.Stats') }}</th>
-                                    <th>{{ __('messages.Date') }}</th>
-                                    <th>{{ __('messages.More') }}</th>
+                                    <th>Order</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer Email</th>
+                                    <th>Customer Phone</th>
+                                    <!--<th>Invoice #</th>-->
+                                    <th>Amount</th>
+                                    <th>Fulfillment Status</th>
+                                    <th>Tracking Code</th>
+                                    <th>Payment Status</th>
+                                    <th>Date</th>
+                                    <th>More</th>
                                 </tr>
                             </thead>
 
@@ -75,16 +81,22 @@
                                         },
                                 "ajax": "{{ route('account.get_invoice_data') }}",
                                 "columns":[
-                                    { "data": "invoice_number" },
+                                    { "data": "id" },
+                                    { "data": "customer_name" },
+                                    { "data": "customer_email" },
+                                    { "data": "customer_phone" },
+                                    //{ "data": "invoice_number" },
                                     { "data": "invoice_amount" },
+                                    { "data": "fulfillment_status" },
+                                    { "data": "tracking_code" },
                                     { "data": "invoice_status" },
-                                    { "data": "created_at"},
+                                    { "data": "invoice_date"},
                                     { "data": "action","searchable":false,"orderable":false}
 
                                 ],
-                                order:[ [3, 'desc'] ],
-                                "dom": 'lBfrtip',
-                                "buttons": ['copy', 'csv', 'excel', 'pdf', 'print']
+                                order:[ [0, 'desc'] ],
+                                //"dom": 'lBfrtip',
+                                //"buttons": ['copy', 'csv', 'excel', 'pdf', 'print']
 
                              });
                         });

@@ -33,13 +33,15 @@ class AccountController extends Controller
       $settings =Setting::first();
       $invoices_count         = $user->invoice->count();
       $amount_spent           = collect($user->invoice)->sum('total_amount_with_tax');
-      $total_products_bought  = collect($user->invoice)->sum('total_products');
-      $total_items_bought     = collect($user->invoice)->sum('total_items');
+      $total_orders_paid  = collect($user->invoice)->where('status','1')->count();
+      $total_orders_fulfilled  = collect($user->invoice)->where('fulfillment_status','Fulfilled')->count();
+      $total_orders_cancelled = collect($user->invoice)->where('status','2')->count();
 
       return view('account.index')
       ->with('settings', $settings)
-      ->with('total_items_bought', $total_items_bought)
-      ->with('total_products_bought', $total_products_bought)
+      ->with('total_orders_cancelled', $total_orders_cancelled)
+      ->with('total_orders_paid', $total_orders_paid)
+      ->with('total_orders_fulfilled', $total_orders_fulfilled)
       ->with('amount_spent', $amount_spent)
       ->with('invoices_count', $invoices_count)
       ->with('user',$user)//pass user to view

@@ -26,7 +26,7 @@
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <h6 class="m-b-25">{{ __('messages.Transactions') }}</h6>
+                                                    <h6 class="m-b-25">Total orders placed</h6>
                                                     <h3 class="f-w-700 text-c-blue">
                                                         {{$invoices_count}}
                                                         <div class="number count-to" data-from="0"
@@ -35,7 +35,7 @@
                                                     </h3>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <i class="fa fa-eye bg-c-blue"></i>
+                                                    <i class="fa fa-align-justify bg-c-blue"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -47,10 +47,9 @@
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <h6 class="m-b-25">{{ __('messages.Amount Spent') }}!
-                                                        ({!!$settings->currency->symbol !!})</h6>
+                                                    <h6 class="m-b-25">Amount of sales value</h6>
                                                     <h3 class="f-w-700 text-c-yellow">
-                                                        {{$amount_spent}}
+                                                        {!!$settings->currency->symbol !!}{{$amount_spent}}
                                                     </h3>
                                                 </div>
                                                 <div class="col-auto">
@@ -66,13 +65,13 @@
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <h6 class="m-b-25">{{ __('messages.Products Bought') }}!</h6>
-                                                    <h3 class="f-w-700 text-c-blue">
-                                                        {{$total_products_bought}}
+                                                    <h6 class="m-b-25">Fulfilled</h6>
+                                                    <h3 class="f-w-700 text-c-orenge">
+                                                        {{$total_orders_fulfilled}}
                                                     </h3>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <i class="fa fa-tag bg-c-blue"></i>
+                                                    <i class="fa fa-tag bg-c-orenge"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -84,13 +83,30 @@
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col">
-                                                    <h6 class="m-b-25">{{ __('messages.Items Bought') }}!</h6>
-                                                    <h3 class="f-w-700 text-c-yellow">
-                                                        {{$total_items_bought}}
+                                                    <h6 class="m-b-25">Paid</h6>
+                                                    <h3 class="f-w-700 text-c-green">
+                                                        {{$total_orders_paid}}
                                                     </h3>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <i class="fa fa-tag bg-c-yellow"></i>
+                                                    <i class="fa fa-check bg-c-green"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-md-6">
+                                    <div class="card comp-card">
+                                        <div class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <h6 class="m-b-25">Cancelled</h6>
+                                                    <h3 class="f-w-700 text-c-red">
+                                                        0
+                                                    </h3>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fa fa-times bg-c-red"></i>
                                                 </div>
                                             </div>
                                         </div>

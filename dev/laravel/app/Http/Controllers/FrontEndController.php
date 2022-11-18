@@ -27,8 +27,12 @@ class FrontEndController extends Controller
 
     public function index()
     {
+        $settings =Setting::first();
+        if(auth()->user()==null) {
+            return view('index-not-logged-in')->with('settings',$settings);
+        }
       //homepage
-      $settings =Setting::first();
+
       //random products
       $products = Product::where('active',1)->where('parent_id', '=', 0)->inRandomOrder()->limit($settings->home_rand_pro)->get();
       //get 4 latest posts
@@ -86,14 +90,29 @@ class FrontEndController extends Controller
     }
     public function category_page($slug)
     {
+
       $settings =Setting::first();
       $category_page = Category::where('slug',$slug)->first();
       //get category products
-      $products =Product::where('active',1)->where('parent_id', '=', 0)->where('category_id',$category_page->id)->paginate(9);
+      $products =Product::where('active',1)->where('parent_id', '=', 0)->where('category_id',$category_page->id);
+        $order = request()->get('order');
+        $orders  = [
+            'name' => ['name','asc'],
+            'stock_h' => ['stock','desc'],
+            'stock_l' => ['stock','asc'],
+            'price_h' => ['price','desc'],
+            'price_l' => ['price','asc'],
+        ];
+        if(isset($order) && array_key_exists($order,$orders)) {
+            $products = $products->orderBy($orders[$order][0], $orders[$order][1])->paginate(9);
+        }
+        else {
+            $products = $products->orderBy('id', 'desc')->paginate(9);
+        }
       return view('category_page')
       ->with('category_page',$category_page)
       ->with('products',$products)
-      ->with('categories',(Category::all()))
+      ->with('categories',(Category::where('parent_id',0)->where('id','!=',1)->orderBy('name')->get()))
       ->with('pages',(Page::all()))
       ->with('settings',$settings);
     }

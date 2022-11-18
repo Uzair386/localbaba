@@ -25,6 +25,7 @@
                                     </a>
                                 </h2>
                                 <div class="header-search-container">
+                                    @if (Auth::check())
                                     <div class="header-search-wrap">
                                         <div class="search-wrap">
                                             <form method="get" action="{{ url('/search') }}" class="w-100">
@@ -56,6 +57,7 @@
                                         </div>
                                         <div></div>
                                     </div>
+                                    @endif
                                 </div>
                                 <div class="dsc-user-info">
                                     @if (Auth::check())
@@ -65,13 +67,15 @@
                                         <div class="bd-r"><a href="{{ url('/login') }}">Login</a></div>
                                         <a href="{{ url('/register') }}" class="free-trial px-4" style="width: auto">Sign Up</a>
                                     @endif
-
+                                    @if (Auth::check())
                                     <div class="header-cart ml-2" style="top: 0 !important;">
                                     <a title="Cart" href="{{ url('cart') }}" class="coupon-save">
                                         <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                         <span class="count">{{Cart::content()->count()}}</span>
-                                    </a>
+
+
                                     </div>
+                                        @endif
                                 </div>
                             </div>
                         </div>

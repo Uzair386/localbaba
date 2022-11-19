@@ -72,6 +72,7 @@
                                     <a title="Cart" href="{{ url('cart') }}" class="coupon-save">
                                         <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                         <span class="count">{{Cart::content()->count()}}</span>
+                                    </a>
 
 
                                     </div>
